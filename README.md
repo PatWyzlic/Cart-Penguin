@@ -25,4 +25,6 @@
 
 <h4>Wire Frames:</h4>
 
-![penguin game frame](https://user-images.githubusercontent.com/96600690/169600645-dd8233ec-337a-4e6f-be5d-b226742d40f7.png)
+![Screen Shot 2022-05-20 at 3 51 48 PM](https://user-images.githubusercontent.com/96600690/169601416-74083741-d91c-4f9e-8886-55cd9c8a8851.png)
+
+

@@ -24,6 +24,11 @@ let penguin;
 let score = document.querySelector('#score');
 //Initialize keyboard movement
 let keyboardMovement = document.querySelector('keyboard-movement');
+//Image of character
+let imgObj = new Image();
+
+let penguinX = 29;
+let penguinY = 100;
 
 //Win for escaping the mine
 //Score Board
@@ -31,36 +36,36 @@ let keyboardMovement = document.querySelector('keyboard-movement');
 //Instructions page
 
 //Canvas function
+//10 blocks of 30 on board to get locations
 function makeCanvas(){
-    let firstBack = new GameObject(0, 0, 'grey', 32, 600);
-    let secondBack = new GameObject(32, 0, 'grey', 32, 600);
-    let thirdBack = new GameObject(64, 0, 'grey', 32, 600);
-    let fourthBack = new GameObject(96, 0, 'grey', 32, 600);
-    let fifthBack = new GameObject(128, 0, 'grey', 32, 600);
-    let sixthBack = new GameObject(160, 0, 'grey', 32, 600);
-    let seventhBack = new GameObject(192, 0, 'grey', 32, 600);
-    let eightBack = new GameObject(224, 0, 'grey', 32, 600);
-    let ninthBack = new GameObject(256, 0, 'grey', 32, 600);
-    firstBack.render();
-    secondBack.render();
-    thirdBack.render();
-    fourthBack.render();
-    fifthBack.render();
-    sixthBack.render();
-    seventhBack.render();
-    eightBack.render();
-    ninthBack.render();
-    //Use this to make background
+    let a = 0;
+    for(let i = 0; i < 300; i++){
+        Math.random();
+        if(i > 30 && i < 60){
+            let back = new GameObject(i, 0, 'orange', a, 600);
+            back.render();
+            a += 32;
+        }else if(i % 2 === 0){
+            let back = new GameObject(i, 0, 'grey', a, 600);
+            back.render();
+            a += 32;
+        }else{
+            let back = new GameObject(i, 0, 'white', a, 600);
+            back.render();
+            a += 32;
+        }
+    }
 }
 
 //Load DOM
 window.addEventListener("DOMContentLoaded", 
 function(e){
     (function(){
-        console.log(makeCanvas);
-        console.log(penguinCharacter);
-        penguinCharacter();
-        console.log(gameLoop);
+        makeCanvas();
+        imgObj.src ="/Cart-Penguin/Images/Penguin-in-cart.png"
+        imgObj.onload = function(){
+        penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
+    }
         gameLoop();
     })()
 });
@@ -83,8 +88,9 @@ class GameObject {
 }
 
 //Character Function
-function penguinCharacter(){
-    penguin = new GameObject(32, 100, 'black', 32, 32);
+function penguinCharacter(img, x, y, sizeOne, sizeTwo){
+    img = imgObj;
+    penguin = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
 }
 
 //Background generator
@@ -96,15 +102,17 @@ let x = 0;
 //Keyboard controls
 function keyboardControls(e) {
     switch(e.key){
+        //Allows jump, but cannot float character
         case 'w': case 'ArrowUp':
             if(x < 1){
             x++;
             for(let i = 0; i < 32; i++){
-                penguin.y > 0? penguin.y -= 1 : null;
+                penguinY > 0? penguinY -= 1 : null;
             }
             for(let i = 0; i < 32; i++){
                 setTimeout(function(){
-                    penguin.y > 0? penguin.y += 1 : null;
+                    (imgObj, 32, 100, 32, 32);
+                    penguinY > 0? penguinY += 1 : null;
                 }, 400);
             }
             setTimeout(function(){
@@ -143,7 +151,7 @@ function gameLoop(){
     setInterval(function(){
         ctx.clearRect(0, 0, game.width, game.height)
         makeCanvas();
-        penguin.render();
+        penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
     }, 100);
 }
 

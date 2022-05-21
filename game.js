@@ -84,21 +84,33 @@ class GameObject {
 
 //Character Function
 function penguinCharacter(){
-    penguin = new GameObject(32, 100, 'red', 32, 32);
+    penguin = new GameObject(32, 100, 'black', 32, 32);
 }
 
-//Background function
-
 //Background generator
+function backgroundGenerator(){
 
+}
+
+let x = 0;
 //Keyboard controls
 function keyboardControls(e) {
     switch(e.key){
-        case 'w':
-        case 'ArrowUp':
-        case 'Space':
-            let up = penguin.y > 0? penguin.y -= 5 : null;
-            up;
+        case 'w': case 'ArrowUp':
+            if(x < 1){
+            x++;
+            for(let i = 0; i < 32; i++){
+                penguin.y > 0? penguin.y -= 1 : null;
+            }
+            for(let i = 0; i < 32; i++){
+                setTimeout(function(){
+                    penguin.y > 0? penguin.y += 1 : null;
+                }, 400);
+            }
+            setTimeout(function(){
+                x = 0;
+            }, 500);
+            }
             break;
         case 's':
         case 'ArrowDown':

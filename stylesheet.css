@@ -1,14 +1,41 @@
 canvas{
+    width: 60%;
+    height: 60%;
+    background-color: aliceblue;
+}
+#game-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     grid-area: game;
-    width: 800px;
-    height: 500px;
 }
 
 container{
-    background-color: azure;
+    display: grid;
+    background-color: grey;
     grid-template-columns: 20rem 20rem 20rem;
     grid-template-rows: 20rem 20rem 20rem;
     grid-template-areas: "top-one top-two top-three"
                         "game game game"
                         "bottom-one bottom-two bottom-three";
+}
+
+#top-one{
+    grid-area: top-one;
+}
+#top-three{
+    grid-area: top-three;
+}
+#bottom-one{
+    grid-area: bottom-one;
+}
+#bottom-three{
+    grid-area: bottom-three;
+}
+
+#top-one, #top-three, #bottom-one, #bottom-three{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: grey;
 }

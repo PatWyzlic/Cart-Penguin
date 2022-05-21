@@ -14,23 +14,72 @@ tracks at bottom of screen for the minecart
 Uses HTML, CSS, and JavaScript/ JS Canvas
 */
 
+//Initialize game section in html
+let game = document.getElementById('game');
+//Initialize board
+let ctx = game.getContext('2d');
+//Initialize penguin
+let penguin;
 //Score
+let score = 0;
 
-//Win for highest score during session
+//Win for escaping the mine
+//Score Board
 
 //Instructions page
 
 //Canvas function
+function makeCanvas(){
 
-//Background of function
+}
+
+//Load DOM
+window.addEventListener("DOMContentLoaded", 
+function(e){
+    (function(){
+
+    })
+});
+
+class Penguin {
+    constructor(x, y, color, width, height){
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.width = width;
+        this.height = height;
+    }
+    //Render function
+    render(){
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+    
+}
+
+//Background function
 
 //Background generator
-
-//Render function
 
 //Character class
 
 //Keyboard controls
+function keyboardControls(e) {
+    switch(e.key){
+        case 'w':
+        case 'ArrowUp':
+            break;
+        case 's':
+        case 'ArrowDown':
+            break;
+        case 'a':
+        case 'ArrowLeft':
+            break;
+        case 'd':
+        case 'ArrowRight':
+            break;
+    }
+}
 
 //Character lose function 
 

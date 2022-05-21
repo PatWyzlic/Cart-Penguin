@@ -21,7 +21,9 @@ let ctx = game.getContext('2d');
 //Initialize penguin
 let penguin;
 //Score
-let score = 0;
+let score = document.querySelector('#score');
+//Initialize keyboard movement
+let keyboardMovement = document.querySelector('keyboard-movement');
 
 //Win for escaping the mine
 //Score Board
@@ -38,33 +40,37 @@ function makeCanvas(){
 window.addEventListener("DOMContentLoaded", 
 function(e){
     (function(){
-        makeCanvas();
-        let thePenguin = new Penguin(100, 100, blue, 32, 32);
-        render.thePenguin;
-    })
+        //makeCanvas();
+        penguinCharacter();
+        gameLoop();
+    })()
 });
 
-class Penguin {
+//Character class
+class GameObject {
     constructor(x, y, color, width, height){
         this.x = x;
         this.y = y;
         this.color = color;
         this.width = width;
         this.height = height;
+        this.alive = true;
     }
     //Render function
     render(){
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
-    
+}
+
+//Character Function
+function penguinCharacter(){
+    penguin = new GameObject(10, 10, 'blue', 32, 32);
 }
 
 //Background function
 
 //Background generator
-
-//Character class
 
 //Keyboard controls
 function keyboardControls(e) {
@@ -99,8 +105,8 @@ Either duck, or jump to get past them alive
 //Game loop
 function gameLoop(){
     setTimeout(function(){
-
-    }, 1000);
+        penguin.render();
+    }, 100);
 }
 
 //Back button

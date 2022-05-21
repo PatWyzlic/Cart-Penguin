@@ -97,5 +97,10 @@ Either duck, or jump to get past them alive
 //Detect hit
 
 //Game loop
+function gameLoop(){
+    setTimeout(function(){
+
+    }, 1000);
+}
 
 //Back button

@@ -42,7 +42,7 @@ function makeCanvas(){
     for(let i = 0; i < 300; i++){
         Math.random();
         if(i > 30 && i < 60){
-            let back = new GameObject(i, 0, 'orange', a, 600);
+            let back = new GameObject(i, 0, 'grey', a, 600);
             back.render();
             a += 32;
         }else if(i % 2 === 0){
@@ -93,6 +93,10 @@ function penguinCharacter(img, x, y, sizeOne, sizeTwo){
     penguin = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
 }
 
+function imageHandler(img, x, y, sizeOne, sizeTwo){
+    penguin = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
+}
+
 //Background generator
 function backgroundGenerator(){
 
@@ -113,11 +117,11 @@ function keyboardControls(e) {
                 setTimeout(function(){
                     (imgObj, 32, 100, 32, 32);
                     penguinY > 0? penguinY += 1 : null;
-                }, 400);
+                }, 500);
             }
             setTimeout(function(){
                 x = 0;
-            }, 500);
+            }, 700);
             }
             break;
         case 's':

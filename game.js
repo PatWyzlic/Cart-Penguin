@@ -15,9 +15,9 @@ Uses HTML, CSS, and JavaScript/ JS Canvas
 */
 
 //Initialize game section in html
-let game = document.getElementById('#game');
+let game = document.querySelector('#game');
 //Initialize board
-let ctx = game.getContext('2d');
+let ctx = game.getContext("2d");
 //Initialize penguin
 let penguin;
 //Score
@@ -40,8 +40,11 @@ function makeCanvas(){
 window.addEventListener("DOMContentLoaded", 
 function(e){
     (function(){
-        //makeCanvas();
+        console.log(makeCanvas);
+        makeCanvas();
+        console.log(penguinCharacter);
         penguinCharacter();
+        console.log(gameLoop);
         gameLoop();
     })()
 });
@@ -65,7 +68,7 @@ class GameObject {
 
 //Character Function
 function penguinCharacter(){
-    penguin = new GameObject(10, 10, 'blue', 32, 32);
+    penguin = new GameObject(10, 10, 'red', 100, 100);
 }
 
 //Background function
@@ -89,6 +92,8 @@ function keyboardControls(e) {
             break;
     }
 }
+//See if key is pressed
+document.addEventListener('keydown', keyboardControls);
 
 //Character lose function 
 
@@ -104,7 +109,7 @@ Either duck, or jump to get past them alive
 
 //Game loop
 function gameLoop(){
-    setTimeout(function(){
+    setInterval(function(){
         penguin.render();
     }, 100);
 }

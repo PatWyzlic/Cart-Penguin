@@ -1,3 +1,15 @@
 canvas{
     background-color: antiquewhite;
+    grid-area: game;
+    width: 800px;
+    height: 500px;
+}
+
+container{
+    background-color: azure;
+    grid-template-columns: 20rem 20rem 20rem;
+    grid-template-rows: 20rem 20rem 20rem;
+    grid-template-areas: "top-one top-two top-three"
+                        "game game game"
+                        "bottom-one bottom-two bottom-three";
 }

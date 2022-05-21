@@ -1,7 +1,6 @@
 canvas{
     width: 60%;
     height: 60%;
-    background-color: aliceblue;
 }
 #game-container{
     display: flex;

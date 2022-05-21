@@ -32,8 +32,25 @@ let keyboardMovement = document.querySelector('keyboard-movement');
 
 //Canvas function
 function makeCanvas(){
-    ctx.fillStyle = 'rgb(200, 0, 0)';
-    ctx.fillRect(10, 10, 50, 50);
+    let firstBack = new GameObject(0, 0, 'grey', 32, 600);
+    let secondBack = new GameObject(32, 0, 'grey', 32, 600);
+    let thirdBack = new GameObject(64, 0, 'grey', 32, 600);
+    let fourthBack = new GameObject(96, 0, 'grey', 32, 600);
+    let fifthBack = new GameObject(128, 0, 'grey', 32, 600);
+    let sixthBack = new GameObject(160, 0, 'grey', 32, 600);
+    let seventhBack = new GameObject(192, 0, 'grey', 32, 600);
+    let eightBack = new GameObject(224, 0, 'grey', 32, 600);
+    let ninthBack = new GameObject(256, 0, 'grey', 32, 600);
+    firstBack.render();
+    secondBack.render();
+    thirdBack.render();
+    fourthBack.render();
+    fifthBack.render();
+    sixthBack.render();
+    seventhBack.render();
+    eightBack.render();
+    ninthBack.render();
+    //Use this to make background
 }
 
 //Load DOM
@@ -41,7 +58,6 @@ window.addEventListener("DOMContentLoaded",
 function(e){
     (function(){
         console.log(makeCanvas);
-        makeCanvas();
         console.log(penguinCharacter);
         penguinCharacter();
         console.log(gameLoop);
@@ -68,7 +84,7 @@ class GameObject {
 
 //Character Function
 function penguinCharacter(){
-    penguin = new GameObject(10, 10, 'red', 100, 100);
+    penguin = new GameObject(32, 100, 'red', 32, 32);
 }
 
 //Background function
@@ -80,6 +96,9 @@ function keyboardControls(e) {
     switch(e.key){
         case 'w':
         case 'ArrowUp':
+        case 'Space':
+            let up = penguin.y > 0? penguin.y -= 5 : null;
+            up;
             break;
         case 's':
         case 'ArrowDown':
@@ -110,6 +129,8 @@ Either duck, or jump to get past them alive
 //Game loop
 function gameLoop(){
     setInterval(function(){
+        ctx.clearRect(0, 0, game.width, game.height)
+        makeCanvas();
         penguin.render();
     }, 100);
 }

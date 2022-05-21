@@ -15,7 +15,7 @@ Uses HTML, CSS, and JavaScript/ JS Canvas
 */
 
 //Initialize game section in html
-let game = document.getElementById('game');
+let game = document.getElementById('#game');
 //Initialize board
 let ctx = game.getContext('2d');
 //Initialize penguin
@@ -30,14 +30,17 @@ let score = 0;
 
 //Canvas function
 function makeCanvas(){
-
+    ctx.fillStyle = 'rgb(200, 0, 0)';
+    ctx.fillRect(10, 10, 50, 50);
 }
 
 //Load DOM
 window.addEventListener("DOMContentLoaded", 
 function(e){
     (function(){
-
+        makeCanvas();
+        let thePenguin = new Penguin(100, 100, blue, 32, 32);
+        render.thePenguin;
     })
 });
 

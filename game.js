@@ -42,21 +42,13 @@ let penguinY = 100;
 //10 blocks of 30 on board to get locations
 function makeCanvas(){
     let a = 0;
-    for(let i = 0; i < 300; i++){
-        Math.random();
-        if(i > 30 && i < 60){
-            let back = new GameObject(i, 0, 'grey', a, 600);
+    let b = 600;
+    for(let i = 0; i < 1000; i++){
+            railHandler(railObj, b, 100, 30, 32);
+            let back = new GameObject(a, 0, 'grey', 32, 600);
             back.render();
-            a += 32;
-        }else if(i % 2 === 0){
-            let back = new GameObject(i, 0, 'grey', a, 600);
-            back.render();
-            a += 32;
-        }else{
-            let back = new GameObject(i, 0, 'white', a, 600);
-            back.render();
-            a += 32;
-        }
+        a += 30;
+        b -= 30;
     }
 }
 
@@ -71,7 +63,7 @@ function(e){
         }
         railObj.src = "/Cart-Penguin/Images/rails.png";
         railObj.onload = function(){
-            railHandler(railObj, 21, 100, 40, 20);
+            railHandler(railObj, 30, 100, 31, 32);
             }
         gameLoop();
     })()
@@ -165,7 +157,6 @@ function gameLoop(){
     setInterval(function(){
         ctx.clearRect(0, 0, game.width, game.height)
         makeCanvas();
-        railHandler(railObj, 30, 100, 31, 32);
         penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
     }, 100);
 }

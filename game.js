@@ -43,13 +43,13 @@ let penguinY = 100;
 function makeCanvas(){
     let a = 0;
     let b = 600;
-    for(let i = 0; i < 30; i++){
-            
+    for(let i = 0; i < 30; i++){        
         railHandler(railObj, b, 100, 30, 32);
-            let back = new GameObject(a, 0, 'grey', 32, 600);
-            back.render();
+        let back = new GameObject(a, 0, 'grey', 32, 600);
+        back.render();
         a += 30;
         b -= 30;
+        c -= 30;
     }
 }
 
@@ -64,14 +64,16 @@ function(e){
         }
         railObj.src = "/Cart-Penguin/Images/rails.png";
         railObj.onload = function(){
-            railHandler(railObj, 30, 100, 31, 32);
+            railHandler(railObj, 400, 100, 31, 32);
         }
-        gameLoop();
+        /*
         for (let i = 0; i < 10; i++) {
             setTimeout(() => {
                 backgroundGenerator();
-            }, i * 2000);
+            }, i * 200);
         }
+        */
+        gameLoop();
     })()
 });
 
@@ -106,22 +108,31 @@ function railHandler(img, x, y, sizeOne, sizeTwo){
 }
 
 //Background generator
+let theStatus = true;
 function backgroundGenerator(){
-    let a = 9;
-    for (let i = 1; i <= 10; i++) {
-        setTimeout(function timer(){
-            let back = new GameObject(30 * a, 100, 'red', 30, 40);
-            back.render();
+    let newRandom = Math.floor(Math.random() * 10);
+    let randTime = Math.floor(Math.random() * 1000) + 2000;
+    if(newRandom % 2 === 0 && theStatus === true){
+        theStatus = false;
+        let a = 9;
+        for (let i = 1; i <= 10; i++) {
+            setTimeout(function timer(){
+                let back = new GameObject(30 * a, 120, 'black', 30, 40);
+                back.render();
             a--;
-        }, i * 100);
-    }
-    let b = 9;
-    for (let i = 1; i <= 10; i++) {
-        setTimeout(function timer(){
-            let two = new GameObject(30 * b, 100, 'blue', 30, 50);
-            two.render();
-            b--;
-        }, i * 100);
+            }, i * 200);
+        }
+        let b = 10;
+        for (let i = 1; i <= 11; i++) {
+            setTimeout(function timer(){
+                let two = new GameObject(30 * b, 120, 'black', 30, 50);
+                two.render();
+                b--;
+            }, i * 200);
+        }
+        setTimeout(() => {
+            theStatus = true;
+        }, randTime);
     }
 }
 
@@ -140,7 +151,7 @@ function keyboardControls(e) {
                 setTimeout(function(){
                     (imgObj, 32, 100, 32, 32);
                     penguinY > 0? penguinY += 1 : null;
-                }, 500);
+                }, 600);
             }
             setTimeout(function(){
                 x = 0;
@@ -178,8 +189,9 @@ function gameLoop(){
     setInterval(function(){
         ctx.clearRect(0, 0, game.width, game.height)
         makeCanvas();
+        backgroundGenerator();
         penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
-    }, 100);
+    }, 200);
 }
 
 //Back button

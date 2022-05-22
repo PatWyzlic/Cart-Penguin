@@ -43,8 +43,9 @@ let penguinY = 100;
 function makeCanvas(){
     let a = 0;
     let b = 600;
-    for(let i = 0; i < 1000; i++){
-            railHandler(railObj, b, 100, 30, 32);
+    for(let i = 0; i < 30; i++){
+            
+        railHandler(railObj, b, 100, 30, 32);
             let back = new GameObject(a, 0, 'grey', 32, 600);
             back.render();
         a += 30;
@@ -64,8 +65,13 @@ function(e){
         railObj.src = "/Cart-Penguin/Images/rails.png";
         railObj.onload = function(){
             railHandler(railObj, 30, 100, 31, 32);
-            }
+        }
         gameLoop();
+        for (let i = 0; i < 10; i++) {
+            setTimeout(() => {
+                backgroundGenerator();
+            }, i * 2000);
+        }
     })()
 });
 
@@ -101,7 +107,14 @@ function railHandler(img, x, y, sizeOne, sizeTwo){
 
 //Background generator
 function backgroundGenerator(){
-
+    let a = 9;
+    for (let i = 1; i <= 10; i++) {
+        setTimeout(function timer(){
+            let back = new GameObject(30 * a, 100, 'red', 30, 40);
+            back.render();
+            a--;
+        }, i * 100);
+    }
 }
 
 let x = 0;

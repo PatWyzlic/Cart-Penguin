@@ -65,13 +65,6 @@ function(e){
         railObj.onload = function(){
             railHandler(railObj, 400, 100, 31, 32);
         }
-        /*
-        for (let i = 0; i < 10; i++) {
-            setTimeout(() => {
-                backgroundGenerator();
-            }, i * 200);
-        }
-        */
         gameLoop();
     })()
 });
@@ -111,21 +104,22 @@ let theStatus = true;
 function backgroundGenerator(){
     let newRandom = Math.floor(Math.random() * 10);
     let randTime = Math.floor(Math.random() * 1000) + 2000;
-    let o = 300;
-    if(newRandom % 2 !== 0){
+    function makeRails(o){
         for (let i = 10; i >= 0; i--) {
         setTimeout(function timer(){
-            railHandler(railObj, o, 100, 30, 32);
-            o -= 30;
+            railHandler(railObj, 30 * o, 100, 30, 32);
+            o--;
         }, i * 200);
     }
     }
     if(newRandom % 2 === 0 && theStatus === true){
         theStatus = false;
         let a = 9;
+        let f = 9;
         for (let i = 1; i <= 10; i++) {
             setTimeout(function timer(){
                 let back = new GameObject(30 * a, 120, 'black', 30, 40);
+                        let newMake = makeRails(f + 2);
                 back.render();
             a--;
             }, i * 200);
@@ -141,6 +135,8 @@ function backgroundGenerator(){
         setTimeout(() => {
             theStatus = true;
         }, randTime);
+    }else{
+        makeRails();
     }
 }
 

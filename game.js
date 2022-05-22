@@ -42,14 +42,13 @@ let penguinY = 100;
 //10 blocks of 30 on board to get locations
 function makeCanvas(){
     let a = 0;
-    let b = 600;
+    //let b = 600;
     for(let i = 0; i < 30; i++){        
-        railHandler(railObj, b, 100, 30, 32);
+        //railHandler(railObj, b, 100, 30, 32);
         let back = new GameObject(a, 0, 'grey', 32, 600);
         back.render();
         a += 30;
-        b -= 30;
-        c -= 30;
+        //b -= 30;
     }
 }
 
@@ -112,6 +111,15 @@ let theStatus = true;
 function backgroundGenerator(){
     let newRandom = Math.floor(Math.random() * 10);
     let randTime = Math.floor(Math.random() * 1000) + 2000;
+    let o = 300;
+    if(newRandom % 2 !== 0){
+        for (let i = 10; i >= 0; i--) {
+        setTimeout(function timer(){
+            railHandler(railObj, o, 100, 30, 32);
+            o -= 30;
+        }, i * 200);
+    }
+    }
     if(newRandom % 2 === 0 && theStatus === true){
         theStatus = false;
         let a = 9;

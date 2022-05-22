@@ -115,6 +115,14 @@ function backgroundGenerator(){
             a--;
         }, i * 100);
     }
+    let b = 9;
+    for (let i = 1; i <= 10; i++) {
+        setTimeout(function timer(){
+            let two = new GameObject(30 * b, 100, 'blue', 30, 50);
+            two.render();
+            b--;
+        }, i * 100);
+    }
 }
 
 let x = 0;

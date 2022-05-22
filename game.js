@@ -20,12 +20,15 @@ let game = document.querySelector('#game');
 let ctx = game.getContext("2d");
 //Initialize penguin
 let penguin;
+//Initialize rails
+let rails;
 //Score
 let score = document.querySelector('#score');
 //Initialize keyboard movement
 let keyboardMovement = document.querySelector('keyboard-movement');
 //Image of character
 let imgObj = new Image();
+let railObj = new Image();
 
 let penguinX = 29;
 let penguinY = 100;
@@ -64,13 +67,17 @@ function(e){
         makeCanvas();
         imgObj.src ="/Cart-Penguin/Images/Penguin-in-cart.png"
         imgObj.onload = function(){
-        penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
-    }
+            penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
+        }
+        railObj.src = "/Cart-Penguin/Images/rails.png";
+        railObj.onload = function(){
+            railHandler(railObj, 21, 100, 40, 20);
+            }
         gameLoop();
     })()
 });
 
-//Character class
+//Class to hold generated areas
 class GameObject {
     constructor(x, y, color, width, height){
         this.x = x;
@@ -91,10 +98,13 @@ class GameObject {
 function penguinCharacter(img, x, y, sizeOne, sizeTwo){
     img = imgObj;
     penguin = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
+    return penguin;
 }
 
-function imageHandler(img, x, y, sizeOne, sizeTwo){
-    penguin = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
+//All other images
+function railHandler(img, x, y, sizeOne, sizeTwo){
+    rails = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
+    return rails;
 }
 
 //Background generator
@@ -155,6 +165,7 @@ function gameLoop(){
     setInterval(function(){
         ctx.clearRect(0, 0, game.width, game.height)
         makeCanvas();
+        railHandler(railObj, 30, 100, 31, 32);
         penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
     }, 100);
 }

@@ -33,6 +33,8 @@ let railObj = new Image();
 let penguinX = 29;
 let penguinY = 100;
 
+let gameArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 //Win for escaping the mine
 //Score Board
 
@@ -42,13 +44,10 @@ let penguinY = 100;
 //10 blocks of 30 on board to get locations
 function makeCanvas(){
     let a = 0;
-    //let b = 600;
     for(let i = 0; i < 30; i++){        
-        //railHandler(railObj, b, 100, 30, 32);
         let back = new GameObject(a, 0, 'grey', 32, 600);
         back.render();
         a += 30;
-        //b -= 30;
     }
 }
 
@@ -101,41 +100,45 @@ function railHandler(img, x, y, sizeOne, sizeTwo){
 
 //Background generator
 let theStatus = true;
+let a = 9;
+let b = 10;
 function backgroundGenerator(){
     let newRandom = Math.floor(Math.random() * 10);
     let randTime = Math.floor(Math.random() * 1000) + 2000;
-    function makeRails(o){
-        for (let i = 10; i >= 0; i--) {
+    let o = 9;
+    function makeRails(){
+        for (let i = 1; i <= 10; i++) {
         setTimeout(function timer(){
-            railHandler(railObj, 30 * o, 100, 30, 32);
-            o--;
-        }, i * 200);
+                railHandler(railObj, 30 * o,  100, 30, 32);
+                o--;
+            }, i * 200);
+        }
+        o = 9;
     }
-    }
-    if(newRandom % 2 === 0 && theStatus === true){
+    const gapOne = new GameObject(x, 120, 'black', 30, 40);
+    const gapTwo = new GameObject(x, 120, 'black', 30, 50);
+    if(newRandom > 8 && theStatus === true){
         theStatus = false;
-        let a = 9;
-        let f = 9;
         for (let i = 1; i <= 10; i++) {
             setTimeout(function timer(){
-                let back = new GameObject(30 * a, 120, 'black', 30, 40);
-                        let newMake = makeRails(f + 2);
-                back.render();
+                gapOne.x = 30 * a;
+                console.log(gapOne.x)
+                gapTwo.x = 30 * b;
+                gapOne.render();
+                gapTwo.render();
             a--;
+            b--;
             }, i * 200);
         }
-        let b = 10;
-        for (let i = 1; i <= 11; i++) {
-            setTimeout(function timer(){
-                let two = new GameObject(30 * b, 120, 'black', 30, 50);
-                two.render();
-                b--;
-            }, i * 200);
-        }
+        a = 9;
+        b = 10;
         setTimeout(() => {
             theStatus = true;
         }, randTime);
-    }else{
+    }else if(newRandom <= 8 && theStatus === true){
+        makeRails();
+    }else if (a < 9){
+        console.log(a);
         makeRails();
     }
 }

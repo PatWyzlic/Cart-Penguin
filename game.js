@@ -36,8 +36,6 @@ let barrierObj = new Image();
 let penguinX = 29;
 let penguinY = 100;
 
-let gameArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 //Win for escaping the mine
 //Score Board
 
@@ -51,19 +49,22 @@ window.addEventListener("DOMContentLoaded",
 function(e){
     (function(){
         backgroundGenerator();
+        game.imageSmoothingEnabled = true;
         imgObj.src ="/Cart-Penguin/Images/Penguin-in-cart.png"
+
         imgObj.onload = function(){
             penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
         }
         railObj.src = "/Cart-Penguin/Images/rails.png";
         railObj.onload = function(){
+            railObj.imageSmoothingEnabled = true;
             railHandler(railObj, 400, 100, 31, 32);
         }
         barrierObj.src = "/Cart-Penguin/Images/Barrier.png";
         barrierObj.onload = function(){
             barrierHandler(barrierObj, 400, 100, 31, 32);
         }
-        gameLoop();
+        ctx.requestAnimationFrame(gameLoop);  
     })()
 });
 
@@ -96,7 +97,20 @@ function railHandler(img, x, y, sizeOne, sizeTwo){
     rails = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
     return rails;
 }
-
+/*
+class NewImage {
+    constructor(img, name, objName, x, y, sizeOne, sizeTwo){
+        this.img = img;
+        this.name = name;
+        this.objName = new Image();
+        this.x = x;
+        this.y = y;
+        this.sizeOne = sizeOne;
+        this.sizeTwo = sizeTwo;
+    }
+}
+let test = new NewImage()
+*/
 //Barrier Images
 function barrierHandler(img, x, y, sizeOne, sizeTwo){
     barriers = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
@@ -104,12 +118,46 @@ function barrierHandler(img, x, y, sizeOne, sizeTwo){
 }
 
 //Background generator
+let gameArray = [1, 1, 1, 1, 1, 1, 1, 1, 1];
+const barrierScene = 
+    [
+    [1, 1, 1, 1, 1, 1, 1, 1, 2],
+    [1, 1, 1, 1, 1, 1, 1, 2, 1],
+    [1, 1, 1, 1, 1, 1, 2, 1, 1],
+    [1, 1, 1, 1, 1, 2, 1, 1, 1],
+    [1, 1, 1, 1, 2, 1, 1, 1, 1],
+    [1, 1, 1, 2, 1, 1, 1, 1, 1],
+    [1, 1, 2, 1, 1, 1, 1, 1, 1],
+    [1, 2, 1, 1, 1, 1, 1, 1, 1],
+    [2, 1, 1, 1, 1, 1, 1, 1, 1]
+    ];
 let theStatus = true;
 let a = 9;
 let b = 10;
 let h = 0;
 function backgroundGenerator(){
-    let o = 9;
+        let newRandom = Math.floor(Math.random() * 10);  
+        let copyOfArray = gameArray;
+    for(let i = 0; i < 9; i++){
+        if(newRandom === 8){  
+            setTimeout(() => {
+            for(let a = 9; a >= 0; a--) {
+                if(barrierScene[i][a] === 2){
+                    barrierHandler(barrierObj, 30 * a,  100, 30, 32);
+                }else if(barrierScene[i][a] === 1){
+                    railHandler(railObj, 30 * a,  100, 30, 32);
+                }
+            }
+            }, i * 500);
+        }else if(newRandom === 1){
+            railHandler(railObj, 30 * i,  100, 30, 32);
+        }else if(newRandom === 2){
+        }else if(gameArray[i] === 3){
+            const gapOne = new GameObject(30 * i, 130, 'black', 30, 40);
+            gapOne.render();
+        }
+    }
+    /*let o = 9;
     function makeRails(){
         for (let i = 1; i <= 10; i++) {
         setTimeout(function timer(){
@@ -175,7 +223,7 @@ function backgroundGenerator(){
         makeRails();
     }else if (a < 9){
         makeRails();
-    }
+    }*/
 }
 
 let x = 0;
@@ -226,14 +274,9 @@ Either duck, or jump to get past them alive
 //Detect hit
 
 //Game loop
-function gameLoop(){
-    setInterval(function(){
-        ctx.clearRect(0, 0, game.width, game.height);
-        backgroundGenerator();
-        setInterval(() => {
-            penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
-        }, 20);
-    }, 200);
+function gameLoop(){ 
+    ctx.clearRect(0, 0, game.width, game.height);backgroundGenerator();
+    penguinCharacter(imgObj, penguinX, penguinY, 32, 32);  
 }
 
 //Back button

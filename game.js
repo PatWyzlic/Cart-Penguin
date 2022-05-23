@@ -194,10 +194,12 @@ Either duck, or jump to get past them alive
 //Game loop
 function gameLoop(){
     setInterval(function(){
-        ctx.clearRect(0, 0, game.width, game.height)
+        ctx.clearRect(0, 0, game.width, game.height);
         makeCanvas();
         backgroundGenerator();
-        penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
+        setInterval(() => {
+            penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
+        }, 200);
     }, 200);
 }
 

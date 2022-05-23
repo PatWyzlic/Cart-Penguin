@@ -22,6 +22,8 @@ let ctx = game.getContext("2d");
 let penguin;
 //Initialize rails
 let rails;
+
+let barriers;
 //Score
 let score = document.querySelector('#score');
 //Initialize keyboard movement
@@ -29,6 +31,7 @@ let keyboardMovement = document.querySelector('keyboard-movement');
 //Image of character
 let imgObj = new Image();
 let railObj = new Image();
+let barrierObj = new Image();
 
 let penguinX = 29;
 let penguinY = 100;
@@ -55,6 +58,10 @@ function(e){
         railObj.src = "/Cart-Penguin/Images/rails.png";
         railObj.onload = function(){
             railHandler(railObj, 400, 100, 31, 32);
+        }
+        barrierObj.src = "/Cart-Penguin/Images/Barrier.png";
+        barrierObj.onload = function(){
+            barrierHandler(barrierObj, 400, 100, 31, 32);
         }
         gameLoop();
     })()
@@ -84,10 +91,16 @@ function penguinCharacter(img, x, y, sizeOne, sizeTwo){
     return penguin;
 }
 
-//All other images
+//Rail Images
 function railHandler(img, x, y, sizeOne, sizeTwo){
     rails = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
     return rails;
+}
+
+//Barrier Images
+function barrierHandler(img, x, y, sizeOne, sizeTwo){
+    barriers = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
+    return barriers;
 }
 
 //Background generator
@@ -100,6 +113,15 @@ function backgroundGenerator(){
         for (let i = 1; i <= 10; i++) {
         setTimeout(function timer(){
                 railHandler(railObj, 30 * o,  100, 30, 32);
+                o--;
+            }, i * 200);
+        }
+        o = 9;
+    }
+    function makeBarriers(){
+        for (let i = 1; i <= 10; i++) {
+        setTimeout(function timer(){
+                barrierHandler(barrierObj, 30 * o,  100, 30, 32);
                 o--;
             }, i * 200);
         }
@@ -139,12 +161,13 @@ function backgroundGenerator(){
         setTimeout(() => {
             theStatus = true;
         }, randTime);
-    }else if(newRandom === 8 && theStatus === true){
+    }else if(newRandom >= 7 && newRandom <= 8 && theStatus === true){
         theStatus = false;
+        makeBarriers();
         setTimeout(() => {
             theStatus = true;
         }, randTime);
-    }else if(newRandom < 8 && theStatus === true){
+    }else if(newRandom < 7 && theStatus === true){
         makeRails();
     }else if (a < 9){
         console.log(a);

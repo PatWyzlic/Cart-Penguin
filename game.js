@@ -26,6 +26,8 @@ let rails;
 let barriers;
 //Score
 let score = document.querySelector('#score');
+let scoreNumber = 0;
+score.textContent = `Score: ${scoreNumber}`; 
 //Initialize keyboard movement
 let keyboardMovement = document.querySelector('keyboard-movement');
 //Image of character
@@ -89,6 +91,7 @@ class GameObject {
 function penguinCharacter(img, x, y, sizeOne, sizeTwo){
     img = imgObj;
     penguin = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
+    
     return penguin;
 }
 
@@ -137,11 +140,14 @@ const scenes =
 //let h = 0;
 let nextScene = true;
 function generator(){
-        let newRandom = Math.floor(Math.random() * 10);  
+        let newRandom = Math.floor(Math.random() * 10);
+        let randTime = Math.floor(Math.random() * 1000 + 1000);  
         let l = 9;
+    //Barrier scene
     if(newRandom < 6 && nextScene === true){
         nextScene = false;
         for(let i = 0; i < 10; i++){  
+            railHandler(railObj, 30,  100, 32, 32);
             setTimeout(() => {
                 if(scenes[i][l] === 2){
                     let v = (l + 1) * 30;
@@ -163,8 +169,46 @@ function generator(){
                 }, 50);
             }, i * 200);
         }
-        nextScene = true;
+        setTimeout(() => {
+            scoreNumber++;
+            score.textContent = `Score: ${scoreNumber}`; 
+            nextScene = true;
+        }, randTime);
     }
+    //Gap in tracks scene
+    else if(newRandom > 6 && newRandom < 10 && nextScene === true){
+        for(let i = 0; i < 10; i++){  
+            setTimeout(() => {
+                if(scenes[i][l] === 2){
+                    let v = (l + 1) * 30;
+                    let back = new GameObject(30 * l, 120, 'black', 32, 32);
+                    back.render();
+                    let backTwo = new GameObject(30 * l, 120, 'grey', 32, 10);
+                    back.render();
+                    backTwo.render();
+                        ctx.clearRect(v , 120, 32, 32);
+                        if(l < 9){
+                            if(l < 1){
+                                ctx.clearRect(0 , 120, 32, 32);
+                                railHandler(railObj, 0,  100, 
+                                32, 32)
+                            }
+                            railHandler(railObj, v,  100, 32, 32);
+                        }
+                        l--;
+                }
+                setInterval(() => {
+                    ctx.clearRect(30 , 73, 32, 32);
+                    penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
+                }, 50);
+            }, i * 200);
+        }
+        setTimeout(() => {
+            nextScene = true;
+        }, randTime);
+        
+    }
+    //Rails On Screen
     else if(nextScene === true){
         nextScene = false;
     for(let i = 0; i < 10; i++){  
@@ -189,85 +233,10 @@ function generator(){
                 }, 50);
             }, i * 200);
         }
-        nextScene = true;
-    }
-    
-    // const gapOne = new GameObject(30 * (a), 135, 'black', 30, 40);
-    //gapOne.render();
-    /*if(newRandom === 1){
-        }else if(newRandom === 2){
-        }else if(gameArray[i] === 3){
-            const gapOne = new GameObject(30 * i, 130, 'black', 30, 40);
-            gapOne.render();
-        }
-    }*/
-    /*let o = 9;
-    function makeRails(){
-        for (let i = 1; i <= 10; i++) {
-        setTimeout(function timer(){
-                railHandler(railObj, 30 * o,  100, 30, 32);
-                o--;
-            }, i * 200);
-        }
-        o = 9;
-    }
-    let z = 9;
-    function makeBarriers(){
-        for (let i = 1; i <= 10; i++) {
-        setTimeout(function timer(){
-                barrierHandler(barrierObj, 30 * z,  100, 30, 32);
-                z--;
-            }, i * 200);
-        }
-        z = 9;
-    }
-    function theBackground(){
-        let a = 0;
-        for(let i = 0; i < 30; i++){        
-            let back = new GameObject(a, 0, 'grey', 32, 130);
-            let backBottom = new GameObject(a, 125, 'darkgrey', 32, 80);
-            back.render();
-            backBottom.render();
-            a += 30;
-        }
-    }
-    theBackground();
-    let newRandom = Math.floor(Math.random() * 10);
-    let randTime = Math.floor(Math.random() * 1000) + 2000;
-    
-    const gapOne = new GameObject(x, 130, 'black', 30, 40);
-    const gapTwo = new GameObject(x, 130, 'black', 30, 50);
-    if(h < 10){
-        makeRails();
-        h++;
-    }else if(newRandom >= 9 && theStatus === true){
-        theStatus = false;
-        for (let i = 1; i <= 10; i++) {
-            setTimeout(function timer(){
-                gapOne.x = 30 * a;
-                gapTwo.x = 30 * b;
-                gapOne.render();
-                gapTwo.render();
-            a--;
-            b--;
-            }, i * 200);
-        }
-        a = 9;
-        b = 10;
         setTimeout(() => {
-            theStatus = true;
+            nextScene = true;
         }, randTime);
-    }else if(newRandom >= 7 && newRandom <= 8 && theStatus === true){
-        theStatus = false;
-        makeBarriers();
-        setTimeout(() => {
-            theStatus = true;
-        }, randTime);
-    }else if(newRandom < 7 && theStatus === true){
-        makeRails();
-    }else if (a < 9){
-        makeRails();
-    }*/
+    }
 }
 
 let x = 0;
@@ -280,7 +249,9 @@ function keyboardControls(e) {
             x++;
             for(let i = 0; i < 32; i++){
                 ctx.clearRect(30 , 98, 32, 32);
+                railHandler(railObj, 30, 100, 32, 32);
                 penguinY > 0? penguinY -= 1 : null;
+                
             }
             for(let i = 0; i < 32; i++){
                 setTimeout(function(){

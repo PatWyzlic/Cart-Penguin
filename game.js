@@ -42,20 +42,12 @@ let gameArray = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 //Canvas function
 //10 blocks of 30 on board to get locations
-function makeCanvas(){
-    let a = 0;
-    for(let i = 0; i < 30; i++){        
-        let back = new GameObject(a, 0, 'grey', 32, 600);
-        back.render();
-        a += 30;
-    }
-}
 
 //Load DOM
 window.addEventListener("DOMContentLoaded", 
 function(e){
     (function(){
-        makeCanvas();
+        backgroundGenerator();
         imgObj.src ="/Cart-Penguin/Images/Penguin-in-cart.png"
         imgObj.onload = function(){
             penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
@@ -103,8 +95,6 @@ let theStatus = true;
 let a = 9;
 let b = 10;
 function backgroundGenerator(){
-    let newRandom = Math.floor(Math.random() * 10);
-    let randTime = Math.floor(Math.random() * 1000) + 2000;
     let o = 9;
     function makeRails(){
         for (let i = 1; i <= 10; i++) {
@@ -115,9 +105,23 @@ function backgroundGenerator(){
         }
         o = 9;
     }
-    const gapOne = new GameObject(x, 120, 'black', 30, 40);
-    const gapTwo = new GameObject(x, 120, 'black', 30, 50);
-    if(newRandom > 8 && theStatus === true){
+    function theBackground(){
+        let a = 0;
+        for(let i = 0; i < 30; i++){        
+            let back = new GameObject(a, 0, 'grey', 32, 130);
+            let backBottom = new GameObject(a, 125, 'darkgrey', 32, 80);
+            back.render();
+            backBottom.render();
+            a += 30;
+        }
+    }
+    theBackground();
+    let newRandom = Math.floor(Math.random() * 10);
+    let randTime = Math.floor(Math.random() * 1000) + 2000;
+    
+    const gapOne = new GameObject(x, 130, 'black', 30, 40);
+    const gapTwo = new GameObject(x, 130, 'black', 30, 50);
+    if(newRandom >= 9 && theStatus === true){
         theStatus = false;
         for (let i = 1; i <= 10; i++) {
             setTimeout(function timer(){
@@ -135,7 +139,12 @@ function backgroundGenerator(){
         setTimeout(() => {
             theStatus = true;
         }, randTime);
-    }else if(newRandom <= 8 && theStatus === true){
+    }else if(newRandom === 8 && theStatus === true){
+        theStatus = false;
+        setTimeout(() => {
+            theStatus = true;
+        }, randTime);
+    }else if(newRandom < 8 && theStatus === true){
         makeRails();
     }else if (a < 9){
         console.log(a);
@@ -195,7 +204,6 @@ Either duck, or jump to get past them alive
 function gameLoop(){
     setInterval(function(){
         ctx.clearRect(0, 0, game.width, game.height);
-        makeCanvas();
         backgroundGenerator();
         setInterval(() => {
             penguinCharacter(imgObj, penguinX, penguinY, 32, 32);

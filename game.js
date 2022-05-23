@@ -107,6 +107,7 @@ function barrierHandler(img, x, y, sizeOne, sizeTwo){
 let theStatus = true;
 let a = 9;
 let b = 10;
+let h = 0;
 function backgroundGenerator(){
     let o = 9;
     function makeRails(){
@@ -118,14 +119,15 @@ function backgroundGenerator(){
         }
         o = 9;
     }
+    let z = 9;
     function makeBarriers(){
         for (let i = 1; i <= 10; i++) {
         setTimeout(function timer(){
-                barrierHandler(barrierObj, 30 * o,  100, 30, 32);
-                o--;
+                barrierHandler(barrierObj, 30 * z,  100, 30, 32);
+                z--;
             }, i * 200);
         }
-        o = 9;
+        z = 9;
     }
     function theBackground(){
         let a = 0;
@@ -143,12 +145,14 @@ function backgroundGenerator(){
     
     const gapOne = new GameObject(x, 130, 'black', 30, 40);
     const gapTwo = new GameObject(x, 130, 'black', 30, 50);
-    if(newRandom >= 9 && theStatus === true){
+    if(h < 10){
+        makeRails();
+        h++;
+    }else if(newRandom >= 9 && theStatus === true){
         theStatus = false;
         for (let i = 1; i <= 10; i++) {
             setTimeout(function timer(){
                 gapOne.x = 30 * a;
-                console.log(gapOne.x)
                 gapTwo.x = 30 * b;
                 gapOne.render();
                 gapTwo.render();
@@ -170,7 +174,6 @@ function backgroundGenerator(){
     }else if(newRandom < 7 && theStatus === true){
         makeRails();
     }else if (a < 9){
-        console.log(a);
         makeRails();
     }
 }
@@ -188,7 +191,6 @@ function keyboardControls(e) {
             }
             for(let i = 0; i < 32; i++){
                 setTimeout(function(){
-                    (imgObj, 32, 100, 32, 32);
                     penguinY > 0? penguinY += 1 : null;
                 }, 600);
             }
@@ -230,7 +232,7 @@ function gameLoop(){
         backgroundGenerator();
         setInterval(() => {
             penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
-        }, 200);
+        }, 20);
     }, 200);
 }
 

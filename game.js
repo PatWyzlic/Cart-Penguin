@@ -14,6 +14,7 @@ tracks at bottom of screen for the minecart
 Uses HTML, CSS, and JavaScript/ JS Canvas
 */
 
+//Load DOM
 //Initialize game section in html
 let game = document.querySelector('#game');
 //Initialize board
@@ -38,6 +39,7 @@ let barrierObj = new Image();
 let penguinX = 29;
 let penguinY = 100;
 
+let gameOver = false;
 //Win for escaping the mine
 //Score Board
 
@@ -45,8 +47,7 @@ let penguinY = 100;
 
 //Canvas function
 //10 blocks of 30 on board to get locations
-
-//Load DOM
+if(gameOver === false){
 window.addEventListener("DOMContentLoaded", 
 function(e){
     (function(){
@@ -66,6 +67,7 @@ function(e){
         barrierObj.onload = function(){
             barrierHandler(barrierObj, 400, 100, 31, 32);
         }
+
         requestAnimationFrame(gameLoop);  
     })()
 });
@@ -135,17 +137,18 @@ const scenes =
     [1, 2, 1, 1, 1, 1, 1, 1, 1, 1],
     [2, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ];
-//let theStatus = true;
-//let b = 10;
-//let h = 0;
+let lastToGo = ['Hi'];
 let nextScene = true;
+let d = 0;
 function generator(){
         let newRandom = Math.floor(Math.random() * 10);
-        let randTime = Math.floor(Math.random() * 1000 + 1000);  
+        let randTime = Math.floor(Math.random() * 2000 + 2000);  
         let l = 9;
     //Barrier scene
-    if(newRandom < 6 && nextScene === true){
+    if(newRandom < 4 && nextScene === true && lastToGo[0] !== 'Barrier'){
         nextScene = false;
+        lastToGo.fill('Barrier', 0, 1);
+        console.log(lastToGo);
         for(let i = 0; i < 10; i++){  
             railHandler(railObj, 30,  100, 32, 32);
             setTimeout(() => {
@@ -154,7 +157,7 @@ function generator(){
                         barrierHandler(barrierObj, 30 * l,  100, 32, 32);
                         ctx.clearRect(v , 103, 32, 32);
                         if(l < 9){
-                            if(l < 1){
+                            if(l < 1){  
                                 ctx.clearRect(0 , 103, 32, 32);
                                 railHandler(railObj, 0,  100, 
                                 32, 32)
@@ -176,19 +179,25 @@ function generator(){
         }, randTime);
     }
     //Gap in tracks scene
-    else if(newRandom > 6 && newRandom < 10 && nextScene === true){
+    else if(newRandom < 7 && 
+        newRandom > 4 &&nextScene === true && lastToGo[0] !== 'Gap'){
+        lastToGo.fill('Gap', 0, 1);
         for(let i = 0; i < 10; i++){  
             setTimeout(() => {
                 if(scenes[i][l] === 2){
                     let v = (l + 1) * 30;
                     let back = new GameObject(30 * l, 120, 'black', 32, 32);
                     back.render();
-                    let backTwo = new GameObject(30 * l, 120, 'grey', 32, 10);
+                    let backTwo = new GameObject(30 * l, 110, 'grey', 32, 100);
+                    console.log(penguinX, penguinY);
+                    hitLost(30*l, 99);
                     back.render();
                     backTwo.render();
+                    console.log(30*l, 110);
                         ctx.clearRect(v , 120, 32, 32);
                         if(l < 9){
                             if(l < 1){
+                                hitLost(30*l, 99);
                                 ctx.clearRect(0 , 120, 32, 32);
                                 railHandler(railObj, 0,  100, 
                                 32, 32)
@@ -209,13 +218,14 @@ function generator(){
         
     }
     //Rails On Screen
-    else if(nextScene === true){
+    else if(nextScene === true && newRandom > 7 || d < 1){
         nextScene = false;
     for(let i = 0; i < 10; i++){  
+        d++;
             setTimeout(() => {
                 if(scenes[i][l] === 2){
                     let v = (l + 1) * 30;
-                        railHandler(barrierObj, 30 * l,  100, 32, 32);
+                        railHandler(railObj, 30 * l,  100, 32, 32);
                         ctx.clearRect(v , 103, 32, 32);
                         if(l < 9){
                             if(l < 1){
@@ -278,6 +288,13 @@ function keyboardControls(e) {
 document.addEventListener('keydown', keyboardControls);
 
 //Character lose function 
+function hitLost(objectX, objectY){
+    if(objectX <= 31 && penguinY >= objectY){
+        gameOver = true;
+        console.log("lost");
+        return gameOver;
+    }
+}
 
 //Falling rock function
 
@@ -291,8 +308,25 @@ Either duck, or jump to get past them alive
 
 //Game loop
 function gameLoop(){ 
-    setInterval(() => {
-        generator(); 
-    }, 1000); 
+    let theInterval = setInterval(function() {
+        generator();
+        if(gameOver === true){
+            let newLost = document.querySelector('#game');
+            newLost.remove();
+            gameOver = true;
+            clearInterval(theInterval);
+            score.innerHTML = `Calculating Score`;
+            setTimeout(() => {
+                if(scoreNumber > 1){
+                    score.innerHTML = `Total Score! ${scoreNumber - 1}`;
+                }else if(scoreNumber === 1){
+                    score.innerHTML = `Total Score! ${scoreNumber}`;
+                }else{
+                    score.innerHTML = `Score: Try again`;
+                }
+            }, 5000);
+        } 
+    }, 1000);   
 }
 //Back button
+}

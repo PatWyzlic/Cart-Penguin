@@ -188,7 +188,7 @@ function generator(){
                     let v = (l + 1) * 30;
                     let back = new GameObject(30 * l, 120, 'black', 32, 32);
                     back.render();
-                    let backTwo = new GameObject(30 * l, 110, 'grey', 32, 100);
+                    let backTwo = new GameObject(30 * l, 110, 'grey', 32, 20);
                     console.log(penguinX, penguinY);
                     hitLost(30*l, 99);
                     back.render();

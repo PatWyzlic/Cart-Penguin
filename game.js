@@ -48,7 +48,7 @@ let penguinY = 100;
 window.addEventListener("DOMContentLoaded", 
 function(e){
     (function(){
-        backgroundGenerator();
+        generator();
         game.imageSmoothingEnabled = true;
         imgObj.src ="/Cart-Penguin/Images/Penguin-in-cart.png"
 
@@ -64,7 +64,7 @@ function(e){
         barrierObj.onload = function(){
             barrierHandler(barrierObj, 400, 100, 31, 32);
         }
-        ctx.requestAnimationFrame(gameLoop);  
+        requestAnimationFrame(gameLoop);  
     })()
 });
 
@@ -119,44 +119,56 @@ function barrierHandler(img, x, y, sizeOne, sizeTwo){
 
 //Background generator
 let gameArray = [1, 1, 1, 1, 1, 1, 1, 1, 1];
-const barrierScene = 
+const scenes = 
     [
-    [1, 1, 1, 1, 1, 1, 1, 1, 2],
-    [1, 1, 1, 1, 1, 1, 1, 2, 1],
-    [1, 1, 1, 1, 1, 1, 2, 1, 1],
-    [1, 1, 1, 1, 1, 2, 1, 1, 1],
-    [1, 1, 1, 1, 2, 1, 1, 1, 1],
-    [1, 1, 1, 2, 1, 1, 1, 1, 1],
-    [1, 1, 2, 1, 1, 1, 1, 1, 1],
-    [1, 2, 1, 1, 1, 1, 1, 1, 1],
-    [2, 1, 1, 1, 1, 1, 1, 1, 1]
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
+    [1, 1, 1, 1, 1, 1, 1, 1, 2, 1],
+    [1, 1, 1, 1, 1, 1, 1, 2, 1, 1],
+    [1, 1, 1, 1, 1, 1, 2, 1, 1, 1],
+    [1, 1, 1, 1, 1, 2, 1, 1, 1, 1],
+    [1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+    [1, 1, 1, 2, 1, 1, 1, 1, 1, 1],
+    [1, 1, 2, 1, 1, 1, 1, 1, 1, 1],
+    [1, 2, 1, 1, 1, 1, 1, 1, 1, 1],
+    [2, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ];
-let theStatus = true;
-let a = 9;
-let b = 10;
-let h = 0;
-function backgroundGenerator(){
+//let theStatus = true;
+//let b = 10;
+//let h = 0;
+
+function generator(){
         let newRandom = Math.floor(Math.random() * 10);  
         let copyOfArray = gameArray;
-    for(let i = 0; i < 9; i++){
-        if(newRandom === 8){  
-            setTimeout(() => {
-            for(let a = 9; a >= 0; a--) {
-                if(barrierScene[i][a] === 2){
-                    barrierHandler(barrierObj, 30 * a,  100, 30, 32);
-                }else if(barrierScene[i][a] === 1){
-                    railHandler(railObj, 30 * a,  100, 30, 32);
-                }
+        let l = 9;
+    for(let i = 0; i < 10; i++){  
+        setTimeout(() => {
+            if(scenes[i][l] === 2){
+                let v = (l + 1) * 30;
+                    barrierHandler(barrierObj, 30 * l,  100, 32, 32);
+                    ctx.clearRect(v , 103, 32, 32);
+                    if(l < 9){
+                        if(l < 1){
+                            ctx.clearRect(0 , 103, 32, 32);
+                            railHandler(railObj, 0,  100, 32, 32)
+                        }
+                        railHandler(railObj, v,  100, 32, 32);
+                    }
+                    l--;
             }
-            }, i * 500);
-        }else if(newRandom === 1){
-            railHandler(railObj, 30 * i,  100, 30, 32);
+            setInterval(() => {
+                penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
+            }, 100);
+        }, i * 200);
+    }
+    // const gapOne = new GameObject(30 * (a), 135, 'black', 30, 40);
+    //gapOne.render();
+    /*if(newRandom === 1){
         }else if(newRandom === 2){
         }else if(gameArray[i] === 3){
             const gapOne = new GameObject(30 * i, 130, 'black', 30, 40);
             gapOne.render();
         }
-    }
+    }*/
     /*let o = 9;
     function makeRails(){
         for (let i = 1; i <= 10; i++) {
@@ -275,8 +287,6 @@ Either duck, or jump to get past them alive
 
 //Game loop
 function gameLoop(){ 
-    ctx.clearRect(0, 0, game.width, game.height);backgroundGenerator();
-    penguinCharacter(imgObj, penguinX, penguinY, 32, 32);  
+    generator();  
 }
-
 //Back button

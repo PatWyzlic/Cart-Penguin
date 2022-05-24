@@ -67,7 +67,6 @@ function(e){
         barrierObj.onload = function(){
             barrierHandler(barrierObj, 400, 100, 31, 32);
         }
-
         requestAnimationFrame(gameLoop);  
     })()
 });
@@ -142,7 +141,7 @@ let nextScene = true;
 let d = 0;
 function generator(){
         let newRandom = Math.floor(Math.random() * 10);
-        let randTime = Math.floor(Math.random() * 2000 + 2000);  
+        let randTime = Math.floor(Math.random() * 1000 + 1000);  
         let l = 9;
     //Barrier scene
     if(newRandom < 4 && nextScene === true && lastToGo[0] !== 'Barrier'){
@@ -151,6 +150,7 @@ function generator(){
         console.log(lastToGo);
         for(let i = 0; i < 10; i++){  
             railHandler(railObj, 30,  100, 32, 32);
+            hitLost(30*l, 99);
             setTimeout(() => {
                 if(scenes[i][l] === 2){
                     let v = (l + 1) * 30;
@@ -158,6 +158,7 @@ function generator(){
                         ctx.clearRect(v , 103, 32, 32);
                         if(l < 9){
                             if(l < 1){  
+                                hitLost(30*l, 99);
                                 ctx.clearRect(0 , 103, 32, 32);
                                 railHandler(railObj, 0,  100, 
                                 32, 32)
@@ -179,7 +180,7 @@ function generator(){
         }, randTime);
     }
     //Gap in tracks scene
-    else if(newRandom < 7 && 
+    else if(newRandom < 8 && 
         newRandom > 4 &&nextScene === true && lastToGo[0] !== 'Gap'){
         lastToGo.fill('Gap', 0, 1);
         for(let i = 0; i < 10; i++){  
@@ -213,14 +214,17 @@ function generator(){
             }, i * 200);
         }
         setTimeout(() => {
+            scoreNumber++;
+            score.textContent = `Score: ${scoreNumber}`; 
             nextScene = true;
         }, randTime);
         
     }
     //Rails On Screen
-    else if(nextScene === true && newRandom > 7 || d < 1){
+    else if(nextScene === true && newRandom > 8 || d < 1){
         nextScene = false;
     for(let i = 0; i < 10; i++){  
+        lastToGo.fill('Rails', 0, 1);
         d++;
             setTimeout(() => {
                 if(scenes[i][l] === 2){
@@ -231,7 +235,7 @@ function generator(){
                             if(l < 1){
                                 ctx.clearRect(0 , 103, 32, 32);
                                 railHandler(railObj, 0,  100, 
-                                32, 32)
+                                32, 32);
                             }
                             railHandler(railObj, v,  100, 32, 32);
                         }
@@ -313,6 +317,8 @@ function gameLoop(){
         if(gameOver === true){
             let newLost = document.querySelector('#game');
             newLost.remove();
+            let gameContainer = document.querySelector('#game-container');
+            gameContainer.innerHTML = `<h1>YOU LOST, TRY AGAIN</h1>`
             gameOver = true;
             clearInterval(theInterval);
             score.innerHTML = `Calculating Score`;

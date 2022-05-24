@@ -47,7 +47,6 @@ let gameOver = false;
 
 //Canvas function
 //10 blocks of 30 on board to get locations
-if(gameOver === false){
 window.addEventListener("DOMContentLoaded", 
 function(e){
     (function(){
@@ -61,7 +60,16 @@ function(e){
         railObj.src = "/Cart-Penguin/Images/rails.png";
         railObj.onload = function(){
             railObj.imageSmoothingEnabled = true;
-            railHandler(railObj, 400, 100, 31, 32);
+            railHandler(railObj, 0, 100, 31, 32);
+            railHandler(railObj, 30, 100, 31, 32);
+            railHandler(railObj, 60, 100, 31, 32);
+            railHandler(railObj, 90, 100, 31, 32);
+            railHandler(railObj, 120, 100, 31, 32);
+            railHandler(railObj, 150, 100, 31, 32);
+            railHandler(railObj, 180, 100, 31, 32);
+            railHandler(railObj, 210, 100, 31, 32);
+            railHandler(railObj, 240, 100, 31, 32);
+            railHandler(railObj, 270, 100, 31, 32);
         }
         barrierObj.src = "/Cart-Penguin/Images/Barrier.png";
         barrierObj.onload = function(){
@@ -71,6 +79,7 @@ function(e){
     })()
 });
 
+if(gameOver === false){
 //Class to hold generated areas
 class GameObject {
     constructor(x, y, color, width, height){
@@ -136,7 +145,7 @@ const scenes =
     [1, 2, 1, 1, 1, 1, 1, 1, 1, 1],
     [2, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ];
-let lastToGo = ['Hi'];
+let lastToGo = ['Insert'];
 let nextScene = true;
 let d = 0;
 function generator(){
@@ -144,7 +153,7 @@ function generator(){
         let randTime = Math.floor(Math.random() * 1000 + 1000);  
         let l = 9;
     //Barrier scene
-    if(newRandom < 4 && nextScene === true && lastToGo[0] !== 'Barrier'){
+    if(newRandom < 4 && nextScene === true && lastToGo[0] !== 'Barrier' && d > 5){
         nextScene = false;
         lastToGo.fill('Barrier', 0, 1);
         console.log(lastToGo);
@@ -182,7 +191,7 @@ function generator(){
     //Gap in tracks scene
     else if(newRandom < 8 && 
         newRandom > 4 &&nextScene === true && lastToGo[0] !== 'Gap'){
-        lastToGo.fill('Gap', 0, 1);
+        lastToGo.fill('Gap', 0, 1 && d > 5);
         for(let i = 0; i < 10; i++){  
             setTimeout(() => {
                 if(scenes[i][l] === 2){
@@ -221,7 +230,7 @@ function generator(){
         
     }
     //Rails On Screen
-    else if(nextScene === true && newRandom > 8 || d < 1){
+    else if(nextScene === true && newRandom > 8 || d < 6){
         nextScene = false;
     for(let i = 0; i < 10; i++){  
         lastToGo.fill('Rails', 0, 1);
@@ -290,6 +299,12 @@ function keyboardControls(e) {
 }
 //See if key is pressed
 document.addEventListener('keydown', keyboardControls);
+const playButton = document.querySelector("#play");
+playButton.addEventListener('click', () => {
+    ctx.clearRect(0 , 0, game.width, game.height);
+    gameOver = false;
+    loseStateSelector.innerHTML = `<h1></h1>`
+})
 
 //Character lose function 
 function hitLost(objectX, objectY){
@@ -311,14 +326,15 @@ Either duck, or jump to get past them alive
 //Detect hit
 
 //Game loop
+let gameContainerSelector = document.querySelector('#game-container');
+let loseStateSelector = document.querySelector('#lose-state');
+let gameIdSelector = document.querySelector('#game');
 function gameLoop(){ 
     let theInterval = setInterval(function() {
         generator();
         if(gameOver === true){
-            let newLost = document.querySelector('#game');
-            newLost.remove();
-            let gameContainer = document.querySelector('#game-container');
-            gameContainer.innerHTML = `<h1>YOU LOST, TRY AGAIN</h1>`
+            gameIdSelector.innerHTML = 'Done';
+            loseStateSelector.innerHTML = `<h1>YOU LOST, TRY AGAIN</h1>`
             gameOver = true;
             clearInterval(theInterval);
             score.innerHTML = `Calculating Score`;

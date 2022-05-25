@@ -239,32 +239,34 @@ function generator(){
         }, randTime);
     }
     //Falling rock object
-    else if(newRandom < 4 && nextScene === true && lastToGo[0] !== 'rock' && d > 4){
+    else if(newRandom === 4 && nextScene === true && lastToGo[0] !== 'rock' && d > 4){
         lastToGo.fill('rock', 0, 1 && d > 5);
         for(let i = 0; i < 10; i++){
             setTimeout(() => {
                 if(scenes[i][l] === 2){
-                    let v = (l + 1) * 30;
-                    let back = new GameObject(30 * l, 27 * i * .5, '#524545', 20, 20);
+                    let v = 30 * l;
+                    let back = new GameObject(30 * l, 27 * i * .5, '#524545', 10, 10);
                     back.render();
                     console.log(penguinX, penguinY);
                     hitLost(30*l, 99);
                     back.render();
-                    console.log(30*l, 110);
-                        //ctx.clearRect(v , 120, 32, 32);
+                        ctx.clearRect(30 * l + 30, 0, game.width, 111);
                         if(l < 9){
                             if(l < 1){
                                 hitLost(30*l, 99);
-                                ctx.clearRect(0 , 120, 32, 32);
-                                imageHandler(rails, railObj, 0,  100, 
-                                32, 32); 
+                                ctx.clearRect(30, 110, 32, 32);
+                                ctx.clearRect(0, 110, 32, 32);
+                                setTimeout(() => {
+                                    imageHandler(rails, railObj, 0,  100, 32, 32);
+                                    imageHandler(rails, railObj, 30,  100, 32, 32); 
+                                }, 5);
                             }
                             imageHandler(rails, railObj, v,  100, 32, 32);
                         }
                         l--;
                 }
                 setInterval(() => {
-                    ctx.clearRect(30 , 60, 32, 32);
+                    //ctx.clearRect(30 , 60, 32, 32);
                     imageHandler(penguin, penguinObj, penguinX, penguinY, 32, 32);
                 }, 50);
             }, i * 200);

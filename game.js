@@ -21,6 +21,8 @@ let ctx = game.getContext("2d");
 ctx.imageSmoothingEnabled = true;
 //Initialize penguin
 let penguin;
+//Initialize ducking penguin
+let duckingPenguin;
 //Initialize rails
 let rails;
 //Initialize barriers
@@ -32,6 +34,8 @@ let scoreNumber = 0;
 let keyboardMovement = document.querySelector('keyboard-movement');
 //Storage location for penguin image
 let penguinObj = new Image();
+//Storage location for ducking penguin image
+let duckingPenguinObj = new Image();
 //Storage location for rail image
 let railObj = new Image();
 //Storage location for barrier image
@@ -56,6 +60,11 @@ function(e){
         penguinObj.onload = function(){
             imageHandler(penguin, penguinObj, penguinX, penguinY, 32, 32);
         }
+        duckingPenguinObj.src = "/Cart-Penguin/Images/Ducking-Penguin.png";
+
+        duckingPenguinObj.onload = function(){
+            imageHandler(duckingPenguin, duckingPenguinObj, penguinX, penguinY, 32, 32);
+        }
         railObj.src = "/Cart-Penguin/Images/rails.png";
         railObj.onload = function(){
             //Makes game start with rails
@@ -79,16 +88,19 @@ function(e){
 });
 
 //Game loop
+let newInterval = setInterval(function(){
+    imageHandler(penguin, penguinObj, penguinX, penguinY, 32, 32);
+    gameLoop();
+}, 1000);
+
 function gameLoop(){
     //SetInterval to run game loop once a second
-    setInterval(function() {
         generator();
-        imageHandler(penguin, penguinObj, penguinX, penguinY, 32, 32);
         if(gameOver === true){
             gameLost();
-        } 
-    }, 1000);   
+        }  
 }
+
 //Class to hold generated boxes
 class GameObject {
     constructor(x, y, color, width, height){
@@ -141,7 +153,6 @@ function generator(){
     if(newRandom === 1 && nextScene === true && lastToGo[0] !== 'Barrier' && d > 4){
         nextScene = false;
         lastToGo.fill('Barrier', 0, 1);
-        console.log(lastToGo);
         for(let i = 0; i < 10; i++){  
             imageHandler(rails, railObj, 30, 100, 32, 32);
             hitLost(30*l, 99);
@@ -178,11 +189,9 @@ function generator(){
                     let back = new GameObject(30 * l, 120, 'black', 32, 32);
                     back.render();
                     let backTwo = new GameObject(30 * l, 108, 'grey', 32, 20);
-                    console.log(penguinX, penguinY);
                     hitLost(30*l, 99);
                     back.render();
                     backTwo.render();
-                    console.log(30*l, 110);
                         ctx.clearRect(v , 120, 32, 32);
                         if(l < 9){
                             if(l < 1){
@@ -224,10 +233,6 @@ function generator(){
                         }
                         l--;
                 }
-                setInterval(() => {
-                    ctx.clearRect(30 , 73, 32, 32);
-                    imageHandler(penguin, penguinObj, penguinX, penguinY, 32, 32);
-                }, 50);
             }, i * 200);
         }
         setTimeout(() => {
@@ -238,37 +243,64 @@ function generator(){
 }
 
 let h = 0;
+let f = 0;
 //Keyboard controls
+let penguinInterval = setInterval(function(){
+}, 1000);
+let duckInterval = setInterval(function(){
+
+}, 1000);
 function keyboardControls(e) {
     switch(e.key){
         //Allows jump, but cannot float character
         case 'w': case 'ArrowUp':
             if(h < 1){
-            h++;
-            for(let i = 0; i < 32; i++){
-                ctx.clearRect(30 , 98, 32, 32);
-                imageHandler(rails, railObj, 30, 100, 32, 32);
-                penguinY > 0? penguinY -= 1 : null;
-            }
-            for(let i = 0; i < 32; i++){
-                setTimeout(function(){
-                    penguinY > 0? penguinY += 1 : null;
-                }, 600);
-            }
+                /*
+                let newInterval = setInterval(function(){
+                    imageHandler(rails, railObj, 30, 100, 32, 32);
+                    penguinY > 0? penguinY += 0 : null;
+                }, 100);
             setTimeout(function(){
+                clearInterval(newInterval);
                 h = 0;
-            }, 700);
+            }, 500);
+            */
+            clearInterval(newInterval);
+            clearInterval(duckInterval);
+            penguinInterval = setInterval(function(){
+                ctx.clearRect(0, 0, game.width, game.height)
+                imageHandler(penguin, penguinObj, penguinX, penguinY - 20, 32, 32);
+                gameLoop();
+            }, 1000);
             }
             break;
-        case 's':
-        case 'ArrowDown':
-            break;
-        case 'a':
-        case 'ArrowLeft':
-            break;
-        case 'd':
-        case 'ArrowRight':
-            break;
+        case 's': case 'ArrowDown':
+            /*if(h < 1){
+                h++;
+                for(let i = 0; i < 32; i++){
+                    ctx.clearRect(30 , 98, 32, 32);
+                    imageHandler(duckingPenguin, duckingPenguinObj, 30, 100, 32, 32);
+                    //penguinY > 0? penguinY -= 0 : null;
+                }
+                for(let i = 0; i < 32; i++){
+                    setTimeout(function(){
+                    ctx.clearRect(30 , 98, 32, 32);
+                    imageHandler(duckingPenguin, duckingPenguinObj, 30, 100, 32, 32);
+                    penguinY > 0? penguinY += 0 : null;
+                    }, 600);
+                }
+                setTimeout(function(){
+                    h = 0;
+                }, 700);*/
+                clearInterval(newInterval);
+                clearInterval(penguinInterval);
+                duckInterval = setInterval(function(){
+                ctx.clearRect(0, 0, game.width, game.height)
+                imageHandler(duckingPenguin, duckingPenguinObj, penguinX , penguinY, 32, 32);
+                gameLoop();
+                }, 1000);
+                break;
+                //}
     }
 }
 //See if key is pressed
@@ -300,7 +332,7 @@ function hitLost(objectX, objectY){
 /*Ghost enemy function:
 Either duck, or jump to get past them alive
 */
-//Game over function
+//Game lost function
 function gameLost(){
     let gameIdSelector = document.querySelector('#game');
     gameIdSelector.innerHTML = 'Done';

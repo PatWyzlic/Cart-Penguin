@@ -35,11 +35,9 @@ let penguinObj = new Image();
 let railObj = new Image();
 //Storage location for barrier image
 let barrierObj = new Image();
-
 //Global initialization of penguin x and y
 let penguinX = 29;
 let penguinY = 100;
-
 //Holds whether game ended or not
 let gameOver = false;
 //Win for escaping the mine
@@ -79,8 +77,6 @@ function(e){
         requestAnimationFrame(gameLoop);  
     })()
 });
-
-if(gameOver === false){
 
 //Game loop
 function gameLoop(){
@@ -245,6 +241,7 @@ function generator(){
             nextScene = true;
         }, randTime);
     }
+    //Falling rock function
 }
 
 let x = 0;
@@ -284,12 +281,20 @@ function keyboardControls(e) {
 }
 //See if key is pressed
 document.addEventListener('keydown', keyboardControls);
-const playButton = document.querySelector("#play");
-playButton.addEventListener('click', () => {
+
+//Play id selector
+const playButtonSelector = document.querySelector("#play");
+//Adding listener for click
+playButtonSelector.addEventListener('click', playButton);
+
+//Select the lose area
+const loseStateSelector = document.querySelector("#lose-state");
+function playButton(){
     ctx.clearRect(0 , 0, game.width, game.height);
     gameOver = false;
-    loseStateSelector.innerHTML = `<h1></h1>`
-})
+    scoreNumber = 0;
+    loseStateSelector.innerHTML = ``
+}
 
 //Detect hit 
 function hitLost(objectX, objectY){
@@ -300,8 +305,6 @@ function hitLost(objectX, objectY){
     }
 }
 
-//Falling rock function
-
 //Trick function
 
 /*Ghost enemy function:
@@ -311,10 +314,9 @@ Either duck, or jump to get past them alive
 //Game over function
 function gameLost(){
     //let gameContainerSelector = document.querySelector('#game-container');
-    let loseStateSelector = document.querySelector('#lose-state');
     let gameIdSelector = document.querySelector('#game');
     gameIdSelector.innerHTML = 'Done';
-            loseStateSelector.innerHTML = `<h1>YOU LOST, TRY AGAIN</h1>`
+            loseStateSelector.innerHTML = 'YOU LOST, TRY AGAIN'
             gameOver = true;
             score.innerHTML = `Calculating Score`;
             setTimeout(() => {
@@ -328,7 +330,5 @@ function gameLost(){
             }, 5000);
 }
 
-//Character lose condition
-
 //Back button
-}
+

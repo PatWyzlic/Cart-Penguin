@@ -8,7 +8,7 @@ gaps in the tracks,
 barriers to jump over,
 ghost enemy
 
-Background scrolls right to left
+Background scrolls right to left, auto generated
 tracks at bottom of screen for the minecart
 
 Uses HTML, CSS, and JavaScript/ JS Canvas
@@ -18,6 +18,7 @@ Uses HTML, CSS, and JavaScript/ JS Canvas
 let game = document.querySelector('#game');
 //Initialize board
 let ctx = game.getContext("2d");
+ctx.imageSmoothingEnabled = true;
 //Initialize penguin
 let penguin;
 //Initialize rails
@@ -50,7 +51,6 @@ window.addEventListener("DOMContentLoaded",
 function(e){
     (function(){
         score.textContent = `Score: ${scoreNumber}`; 
-        game.imageSmoothingEnabled = true;
         penguinObj.src ="/Cart-Penguin/Images/Penguin-in-cart.png"
 
         penguinObj.onload = function(){
@@ -58,7 +58,7 @@ function(e){
         }
         railObj.src = "/Cart-Penguin/Images/rails.png";
         railObj.onload = function(){
-            railObj.imageSmoothingEnabled = true;
+            //Makes game start with rails
             imageHandler(rails, railObj, 0, 100, 31, 32);
             imageHandler(rails, railObj, 30, 100, 31, 32);
             imageHandler(rails, railObj, 60, 100, 31, 32);
@@ -83,6 +83,7 @@ function gameLoop(){
     //SetInterval to run game loop once a second
     setInterval(function() {
         generator();
+        imageHandler(penguin, penguinObj, penguinX, penguinY, 32, 32);
         if(gameOver === true){
             gameLost();
         } 
@@ -159,10 +160,6 @@ function generator(){
                         }
                         l--;
                 }
-                setInterval(() => {
-                    ctx.clearRect(30 , 73, 32, 32);
-                    imageHandler(penguin, penguinObj, penguinX, penguinY, 32, 32);
-                }, 50);
             }, i * 200);
         }
         setTimeout(() => {
@@ -180,7 +177,7 @@ function generator(){
                     let v = (l + 1) * 30;
                     let back = new GameObject(30 * l, 120, 'black', 32, 32);
                     back.render();
-                    let backTwo = new GameObject(30 * l, 110, 'grey', 32, 20);
+                    let backTwo = new GameObject(30 * l, 108, 'grey', 32, 20);
                     console.log(penguinX, penguinY);
                     hitLost(30*l, 99);
                     back.render();
@@ -198,10 +195,6 @@ function generator(){
                         }
                         l--;
                 }
-                setInterval(() => {
-                    ctx.clearRect(30 , 73, 32, 32);
-                    imageHandler(penguin, penguinObj, penguinX, penguinY, 32, 32);
-                }, 50);
             }, i * 200);
         }
         setTimeout(() => {
@@ -244,19 +237,18 @@ function generator(){
     //Falling rock function
 }
 
-let x = 0;
+let h = 0;
 //Keyboard controls
 function keyboardControls(e) {
     switch(e.key){
         //Allows jump, but cannot float character
         case 'w': case 'ArrowUp':
-            if(x < 1){
-            x++;
+            if(h < 1){
+            h++;
             for(let i = 0; i < 32; i++){
                 ctx.clearRect(30 , 98, 32, 32);
                 imageHandler(rails, railObj, 30, 100, 32, 32);
                 penguinY > 0? penguinY -= 1 : null;
-                
             }
             for(let i = 0; i < 32; i++){
                 setTimeout(function(){
@@ -264,7 +256,7 @@ function keyboardControls(e) {
                 }, 600);
             }
             setTimeout(function(){
-                x = 0;
+                h = 0;
             }, 700);
             }
             break;
@@ -304,16 +296,12 @@ function hitLost(objectX, objectY){
         return gameOver;
     }
 }
-
 //Trick function
-
 /*Ghost enemy function:
 Either duck, or jump to get past them alive
 */
-
 //Game over function
 function gameLost(){
-    //let gameContainerSelector = document.querySelector('#game-container');
     let gameIdSelector = document.querySelector('#game');
     gameIdSelector.innerHTML = 'Done';
             loseStateSelector.innerHTML = 'YOU LOST, TRY AGAIN'
@@ -329,6 +317,4 @@ function gameLost(){
                 }
             }, 5000);
 }
-
-//Back button
 

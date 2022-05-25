@@ -81,12 +81,14 @@ let t = 0;
 //Load DOM
 window.addEventListener("DOMContentLoaded", function (e) {
   (function () {
-    ctx.clearRect(0, 0, game.width, game.height);
     let playButtonSelector = document.querySelector("#play");
     playButtonSelector.addEventListener("click", gameStarts);
     //Select the lose area
     const loseStateSelector = document.querySelector("#lose-state");
-    if(t < 1){
+    loseStateSelector.addEventListener("click", reload);
+    function reload(){
+        location.reload();
+    }
     function gameStarts() {
       function playButton() {
         ctx.clearRect(0, 0, game.width, game.height);
@@ -126,7 +128,7 @@ window.addEventListener("DOMContentLoaded", function (e) {
       requestAnimationFrame(gameLoop);
       //Game over function
       function gameLost() {
-        loseStateSelector.innerHTML = "YOU LOST, TRY AGAIN";
+        loseStateSelector.innerHTML = "TRY AGAIN";
         gameOver = true;
         t = 0;
         score.innerHTML = 'Calculating Score';
@@ -414,5 +416,5 @@ window.addEventListener("DOMContentLoaded", function (e) {
 Either duck, or jump to get past them alive
 */
     }
- }})();
+  })();
 });

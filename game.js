@@ -90,12 +90,13 @@ function(e){
 //Game loop
 let newInterval = setInterval(function(){
     imageHandler(penguin, penguinObj, penguinX, penguinY, 32, 32);
-    gameLoop();
+}, 1000);
+let alwaysOn = setInterval(function(){
+    generator();
 }, 1000);
 
 function gameLoop(){
     //SetInterval to run game loop once a second
-        generator();
         if(gameOver === true){
             gameLost();
         }  
@@ -145,6 +146,7 @@ let nextScene = true;
 let d = 0;
 //Holds all obstacles
 function generator(){
+    /*
         //New number generated for randomizing scene
         let newRandom = Math.floor(Math.random() * 3);
         let randTime = Math.floor(Math.random() * 1000 + 1000);  
@@ -239,17 +241,19 @@ function generator(){
             nextScene = true;
         }, randTime);
     }
-    //Falling rock function
+    //Falling rock function*/
 }
 
 let h = 0;
 let f = 0;
 //Keyboard controls
-let penguinInterval = setInterval(function(){
+let penguinUpInterval = setInterval(function(){
+}, 1000);
+let penguinDownInterval = setInterval(function(){
 }, 1000);
 let duckInterval = setInterval(function(){
-
 }, 1000);
+
 function keyboardControls(e) {
     switch(e.key){
         //Allows jump, but cannot float character
@@ -267,10 +271,17 @@ function keyboardControls(e) {
             */
             clearInterval(newInterval);
             clearInterval(duckInterval);
-            penguinInterval = setInterval(function(){
-                ctx.clearRect(0, 0, game.width, game.height)
+            penguinUpInterval = setInterval(function(){
+                ctx.clearRect(0, 0, game.width, game.height);
                 imageHandler(penguin, penguinObj, penguinX, penguinY - 20, 32, 32);
-                gameLoop();
+            }, 1000);
+            setTimeout(() => {
+                clearInterval(penguinUpInterval);
+                letPenguinDown = setInterval(() => {
+                    ctx.clearRect(0, 0, game.width, game.height);
+                    imageHandler(penguin, penguinObj, penguinX, penguinY, 32, 32);
+                }, 1000);
+                
             }, 1000);
             }
             break;
@@ -293,7 +304,7 @@ function keyboardControls(e) {
                     h = 0;
                 }, 700);*/
                 clearInterval(newInterval);
-                clearInterval(penguinInterval);
+                clearInterval(penguinUpInterval);
                 duckInterval = setInterval(function(){
                 ctx.clearRect(0, 0, game.width, game.height)
                 imageHandler(duckingPenguin, duckingPenguinObj, penguinX , penguinY, 32, 32);

@@ -14,7 +14,6 @@ tracks at bottom of screen for the minecart
 Uses HTML, CSS, and JavaScript/ JS Canvas
 */
 
-//Load DOM
 //Initialize game section in html
 let game = document.querySelector('#game');
 //Initialize board
@@ -23,38 +22,41 @@ let ctx = game.getContext("2d");
 let penguin;
 //Initialize rails
 let rails;
-
+//Initialize barriers
 let barriers;
-//Score
+//Score Board
 let score = document.querySelector('#score');
 let scoreNumber = 0;
 //Initialize keyboard movement
 let keyboardMovement = document.querySelector('keyboard-movement');
-//Image of character
-let imgObj = new Image();
+//Storage location for penguin image
+let penguinObj = new Image();
+//Storage location for rail image
 let railObj = new Image();
+//Storage location for barrier image
 let barrierObj = new Image();
 
+//Global initialization of penguin x and y
 let penguinX = 29;
 let penguinY = 100;
 
+//Holds whether game ended or not
 let gameOver = false;
 //Win for escaping the mine
-//Score Board
 
 //Instructions page
 
-
 //10 blocks of 30 on board to get locations
+//Load DOM
 window.addEventListener("DOMContentLoaded", 
 function(e){
     (function(){
         score.textContent = `Score: ${scoreNumber}`; 
         game.imageSmoothingEnabled = true;
-        imgObj.src ="/Cart-Penguin/Images/Penguin-in-cart.png"
+        penguinObj.src ="/Cart-Penguin/Images/Penguin-in-cart.png"
 
-        imgObj.onload = function(){
-            imageHandler(penguin, imgObj, penguinX, penguinY, 32, 32);
+        penguinObj.onload = function(){
+            imageHandler(penguin, penguinObj, penguinX, penguinY, 32, 32);
         }
         railObj.src = "/Cart-Penguin/Images/rails.png";
         railObj.onload = function(){
@@ -90,7 +92,7 @@ function gameLoop(){
         } 
     }, 1000);   
 }
-//Class to hold generated areas
+//Class to hold generated boxes
 class GameObject {
     constructor(x, y, color, width, height){
         this.x = x;
@@ -106,13 +108,13 @@ class GameObject {
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
-
+//Loads in all images
 function imageHandler(imgVarName, img, x, y, sizeOne, sizeTwo){
     imgVarName = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
     return imgVarName;
 }
 
-//Background generator
+//Holds different background positions
 const scenes = 
     [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
@@ -126,15 +128,20 @@ const scenes =
     [1, 2, 1, 1, 1, 1, 1, 1, 1, 1],
     [2, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ];
+//Makes sure to not repeat last obstacle
 let lastToGo = ['Insert'];
+//Waits for last scene to end before sending next object
 let nextScene = true;
+//If nothing was sent yet it sends out tracks first
 let d = 0;
+//Holds all obstacles
 function generator(){
-        let newRandom = Math.floor(Math.random() * 10);
+        //New number generated for randomizing scene
+        let newRandom = Math.floor(Math.random() * 3);
         let randTime = Math.floor(Math.random() * 1000 + 1000);  
         let l = 9;
     //Barrier scene
-    if(newRandom < 4 && nextScene === true && lastToGo[0] !== 'Barrier' && d > 5){
+    if(newRandom === 1 && nextScene === true && lastToGo[0] !== 'Barrier' && d > 4){
         nextScene = false;
         lastToGo.fill('Barrier', 0, 1);
         console.log(lastToGo);
@@ -148,6 +155,7 @@ function generator(){
                         ctx.clearRect(v , 103, 32, 32);
                         if(l < 9){
                             if(l < 1){  
+                                hitLost(30*l, 99);
                                 ctx.clearRect(0 , 103, 32, 32);
                                 imageHandler(rails, railObj, 30 * l,  100, 32, 32);
                             }
@@ -157,7 +165,7 @@ function generator(){
                 }
                 setInterval(() => {
                     ctx.clearRect(30 , 73, 32, 32);
-                    imageHandler(penguin, imgObj, penguinX, penguinY, 32, 32);
+                    imageHandler(penguin, penguinObj, penguinX, penguinY, 32, 32);
                 }, 50);
             }, i * 200);
         }
@@ -168,8 +176,7 @@ function generator(){
         }, randTime);
     }
     //Gap in tracks scene
-    else if(newRandom < 8 && 
-        newRandom > 4 && nextScene === true && lastToGo[0] !== 'Gap'){
+    else if(newRandom === 2 && nextScene === true && lastToGo[0] !== 'Gap' && d > 4){
         lastToGo.fill('Gap', 0, 1 && d > 5);
         for(let i = 0; i < 10; i++){  
             setTimeout(() => {
@@ -197,7 +204,7 @@ function generator(){
                 }
                 setInterval(() => {
                     ctx.clearRect(30 , 73, 32, 32);
-                    imageHandler(penguin, imgObj, penguinX, penguinY, 32, 32);
+                    imageHandler(penguin, penguinObj, penguinX, penguinY, 32, 32);
                 }, 50);
             }, i * 200);
         }
@@ -209,7 +216,7 @@ function generator(){
         
     }
     //Rails On Screen
-    else if(nextScene === true && newRandom > 8 || d < 6){
+    else if(nextScene === true && newRandom === 3 && d < 6 || d < 4){
         nextScene = false;
     for(let i = 0; i < 10; i++){  
         lastToGo.fill('Rails', 0, 1);
@@ -230,7 +237,7 @@ function generator(){
                 }
                 setInterval(() => {
                     ctx.clearRect(30 , 73, 32, 32);
-                    imageHandler(penguin, imgObj, penguinX, penguinY, 32, 32);
+                    imageHandler(penguin, penguinObj, penguinX, penguinY, 32, 32);
                 }, 50);
             }, i * 200);
         }

@@ -54,21 +54,21 @@ function(e){
         imgObj.src ="/Cart-Penguin/Images/Penguin-in-cart.png"
 
         imgObj.onload = function(){
-            penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
+            imageHandler(penguin, imgObj, penguinX, penguinY, 32, 32);
         }
         railObj.src = "/Cart-Penguin/Images/rails.png";
         railObj.onload = function(){
             railObj.imageSmoothingEnabled = true;
-            railHandler(railObj, 0, 100, 31, 32);
-            railHandler(railObj, 30, 100, 31, 32);
-            railHandler(railObj, 60, 100, 31, 32);
-            railHandler(railObj, 90, 100, 31, 32);
-            railHandler(railObj, 120, 100, 31, 32);
-            railHandler(railObj, 150, 100, 31, 32);
-            railHandler(railObj, 180, 100, 31, 32);
-            railHandler(railObj, 210, 100, 31, 32);
-            railHandler(railObj, 240, 100, 31, 32);
-            railHandler(railObj, 270, 100, 31, 32);
+            imageHandler(rails, railObj, 0, 100, 31, 32);
+            imageHandler(rails, railObj, 30, 100, 31, 32);
+            imageHandler(rails, railObj, 60, 100, 31, 32);
+            imageHandler(rails, railObj, 90, 100, 31, 32);
+            imageHandler(rails, railObj, 120, 100, 31, 32);
+            imageHandler(rails, railObj, 150, 100, 31, 32);
+            imageHandler(rails, railObj, 180, 100, 31, 32);
+            imageHandler(rails, railObj, 210, 100, 31, 32);
+            imageHandler(rails, railObj, 240, 100, 31, 32);
+            imageHandler(rails, railObj, 270, 100, 31, 32);
         }
         barrierObj.src = "/Cart-Penguin/Images/Barrier.png";
         barrierObj.onload = function(){

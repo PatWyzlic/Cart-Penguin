@@ -28,7 +28,6 @@ let barriers;
 //Score
 let score = document.querySelector('#score');
 let scoreNumber = 0;
-score.textContent = `Score: ${scoreNumber}`; 
 //Initialize keyboard movement
 let keyboardMovement = document.querySelector('keyboard-movement');
 //Image of character
@@ -45,12 +44,12 @@ let gameOver = false;
 
 //Instructions page
 
-//Canvas function
+
 //10 blocks of 30 on board to get locations
 window.addEventListener("DOMContentLoaded", 
 function(e){
     (function(){
-        generator();
+        score.textContent = `Score: ${scoreNumber}`; 
         game.imageSmoothingEnabled = true;
         imgObj.src ="/Cart-Penguin/Images/Penguin-in-cart.png"
 
@@ -73,13 +72,24 @@ function(e){
         }
         barrierObj.src = "/Cart-Penguin/Images/Barrier.png";
         barrierObj.onload = function(){
-            barrierHandler(barrierObj, 400, 100, 31, 32);
+            imageHandler(barriers, barrierObj, 400, 100, 31, 32);
         }
         requestAnimationFrame(gameLoop);  
     })()
 });
 
 if(gameOver === false){
+
+//Game loop
+function gameLoop(){
+    //SetInterval to run game loop once a second
+    setInterval(function() {
+        generator();
+        if(gameOver === true){
+            gameLost();
+        } 
+    }, 1000);   
+}
 //Class to hold generated areas
 class GameObject {
     constructor(x, y, color, width, height){
@@ -97,41 +107,12 @@ class GameObject {
     }
 }
 
-//Character Function
-function penguinCharacter(img, x, y, sizeOne, sizeTwo){
-    img = imgObj;
-    penguin = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
-    
-    return penguin;
-}
-
-//Rail Images
-function railHandler(img, x, y, sizeOne, sizeTwo){
-    rails = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
-    return rails;
-}
-/*
-class NewImage {
-    constructor(img, name, objName, x, y, sizeOne, sizeTwo){
-        this.img = img;
-        this.name = name;
-        this.objName = new Image();
-        this.x = x;
-        this.y = y;
-        this.sizeOne = sizeOne;
-        this.sizeTwo = sizeTwo;
-    }
-}
-let test = new NewImage()
-*/
-//Barrier Images
-function barrierHandler(img, x, y, sizeOne, sizeTwo){
-    barriers = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
-    return barriers;
+function imageHandler(imgVarName, img, x, y, sizeOne, sizeTwo){
+    imgVarName = ctx.drawImage(img, x, y, sizeOne, sizeTwo);
+    return imgVarName;
 }
 
 //Background generator
-let gameArray = [1, 1, 1, 1, 1, 1, 1, 1, 1];
 const scenes = 
     [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
@@ -158,27 +139,25 @@ function generator(){
         lastToGo.fill('Barrier', 0, 1);
         console.log(lastToGo);
         for(let i = 0; i < 10; i++){  
-            railHandler(railObj, 30,  100, 32, 32);
+            imageHandler(rails, railObj, 30, 100, 32, 32);
             hitLost(30*l, 99);
             setTimeout(() => {
                 if(scenes[i][l] === 2){
                     let v = (l + 1) * 30;
-                        barrierHandler(barrierObj, 30 * l,  100, 32, 32);
+                        imageHandler(barriers, barrierObj, 30 * l,  100, 32, 32);
                         ctx.clearRect(v , 103, 32, 32);
                         if(l < 9){
                             if(l < 1){  
-                                hitLost(30*l, 99);
                                 ctx.clearRect(0 , 103, 32, 32);
-                                railHandler(railObj, 0,  100, 
-                                32, 32)
+                                imageHandler(rails, railObj, 30 * l,  100, 32, 32);
                             }
-                            railHandler(railObj, v,  100, 32, 32);
+                            imageHandler(rails, railObj, v,  100, 32, 32);
                         }
                         l--;
                 }
                 setInterval(() => {
                     ctx.clearRect(30 , 73, 32, 32);
-                    penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
+                    imageHandler(penguin, imgObj, penguinX, penguinY, 32, 32);
                 }, 50);
             }, i * 200);
         }
@@ -190,7 +169,7 @@ function generator(){
     }
     //Gap in tracks scene
     else if(newRandom < 8 && 
-        newRandom > 4 &&nextScene === true && lastToGo[0] !== 'Gap'){
+        newRandom > 4 && nextScene === true && lastToGo[0] !== 'Gap'){
         lastToGo.fill('Gap', 0, 1 && d > 5);
         for(let i = 0; i < 10; i++){  
             setTimeout(() => {
@@ -209,16 +188,16 @@ function generator(){
                             if(l < 1){
                                 hitLost(30*l, 99);
                                 ctx.clearRect(0 , 120, 32, 32);
-                                railHandler(railObj, 0,  100, 
+                                imageHandler(rails, railObj, 0,  100, 
                                 32, 32)
                             }
-                            railHandler(railObj, v,  100, 32, 32);
+                            imageHandler(rails, railObj, v,  100, 32, 32);
                         }
                         l--;
                 }
                 setInterval(() => {
                     ctx.clearRect(30 , 73, 32, 32);
-                    penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
+                    imageHandler(penguin, imgObj, penguinX, penguinY, 32, 32);
                 }, 50);
             }, i * 200);
         }
@@ -238,21 +217,20 @@ function generator(){
             setTimeout(() => {
                 if(scenes[i][l] === 2){
                     let v = (l + 1) * 30;
-                        railHandler(railObj, 30 * l,  100, 32, 32);
+                        imageHandler(rails, railObj, 30 * l,  100, 32, 32);
                         ctx.clearRect(v , 103, 32, 32);
                         if(l < 9){
                             if(l < 1){
                                 ctx.clearRect(0 , 103, 32, 32);
-                                railHandler(railObj, 0,  100, 
-                                32, 32);
+                                imageHandler(rails, railObj, 0 * l,  100, 32, 32);
                             }
-                            railHandler(railObj, v,  100, 32, 32);
+                            imageHandler(rails, railObj, v,  100, 32, 32);
                         }
                         l--;
                 }
                 setInterval(() => {
                     ctx.clearRect(30 , 73, 32, 32);
-                    penguinCharacter(imgObj, penguinX, penguinY, 32, 32);
+                    imageHandler(penguin, imgObj, penguinX, penguinY, 32, 32);
                 }, 50);
             }, i * 200);
         }
@@ -272,7 +250,7 @@ function keyboardControls(e) {
             x++;
             for(let i = 0; i < 32; i++){
                 ctx.clearRect(30 , 98, 32, 32);
-                railHandler(railObj, 30, 100, 32, 32);
+                imageHandler(rails, railObj, 30, 100, 32, 32);
                 penguinY > 0? penguinY -= 1 : null;
                 
             }
@@ -306,7 +284,7 @@ playButton.addEventListener('click', () => {
     loseStateSelector.innerHTML = `<h1></h1>`
 })
 
-//Character lose function 
+//Detect hit 
 function hitLost(objectX, objectY){
     if(objectX <= 31 && penguinY >= objectY){
         gameOver = true;
@@ -323,20 +301,14 @@ function hitLost(objectX, objectY){
 Either duck, or jump to get past them alive
 */
 
-//Detect hit
-
-//Game loop
-let gameContainerSelector = document.querySelector('#game-container');
-let loseStateSelector = document.querySelector('#lose-state');
-let gameIdSelector = document.querySelector('#game');
-function gameLoop(){ 
-    let theInterval = setInterval(function() {
-        generator();
-        if(gameOver === true){
-            gameIdSelector.innerHTML = 'Done';
+//Game over function
+function gameLost(){
+    //let gameContainerSelector = document.querySelector('#game-container');
+    let loseStateSelector = document.querySelector('#lose-state');
+    let gameIdSelector = document.querySelector('#game');
+    gameIdSelector.innerHTML = 'Done';
             loseStateSelector.innerHTML = `<h1>YOU LOST, TRY AGAIN</h1>`
             gameOver = true;
-            clearInterval(theInterval);
             score.innerHTML = `Calculating Score`;
             setTimeout(() => {
                 if(scoreNumber > 1){
@@ -347,8 +319,9 @@ function gameLoop(){
                     score.innerHTML = `Score: Try again`;
                 }
             }, 5000);
-        } 
-    }, 1000);   
 }
+
+//Character lose condition
+
 //Back button
 }

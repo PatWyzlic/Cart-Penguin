@@ -39,7 +39,7 @@ totalGameBoard.innerHTML = `<div id="container">
     <h2 id="score">Score</h2>
 </aside>
 <aside id="bottom-two">
-    <h2>Area</h2>
+    <h2></h2>
 </aside>
 <aside id="bottom-three">
     <h2 id="play">Play</h2>
@@ -83,6 +83,7 @@ window.addEventListener("DOMContentLoaded", function (e) {
   (function () {
     let playButtonSelector = document.querySelector("#play");
     playButtonSelector.addEventListener("click", gameStarts);
+    
     //Select the lose area
     const loseStateSelector = document.querySelector("#lose-state");
     loseStateSelector.addEventListener("click", reload);
@@ -90,6 +91,7 @@ window.addEventListener("DOMContentLoaded", function (e) {
         location.reload();
     }
     function gameStarts() {
+      playButtonSelector.remove();
       function playButton() {
         ctx.clearRect(0, 0, game.width, game.height);
         gameOver = false;
@@ -128,6 +130,8 @@ window.addEventListener("DOMContentLoaded", function (e) {
       requestAnimationFrame(gameLoop);
       //Game over function
       function gameLost() {
+        cancelAnimationFrame(gameLoop);
+        clearInterval(gameLoop.mainInterval);
         loseStateSelector.innerHTML = "TRY AGAIN";
         gameOver = true;
         t = 0;
@@ -410,11 +414,6 @@ window.addEventListener("DOMContentLoaded", function (e) {
         }
       }
 
-      //Trick function
-
-      /*Ghost enemy function:
-Either duck, or jump to get past them alive
-*/
     }
   })();
 });

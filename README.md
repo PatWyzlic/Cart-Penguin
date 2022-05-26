@@ -4,14 +4,13 @@
 <h3>Story</h3>
 <ul>
   <li>You're are a penguin trying to escape a mineshaft before it collapses!</li>
-  <li>Watch out there may be some obsticles in the way!</li>
-  <li>You want to show off a bit on your way out...</li>
+  <li>Watch out there may be some obstacles in the way!</li>
+  <li>The ceiling is collapsing too! Watch out...</li>
 </ul>
 <h4>How to play</h4>
 <ul>
-  <li>Jump over or duck under obstacles coming your way.</li>
+  <li>Jump over obstacles coming your way.</li>
   <li>You may encounter some scary monsters so far below the ground.</li>
-  <li>Do some cool tricks.</li>
   <li>Hope you enjoy! 😁</li>
 </ul>
 

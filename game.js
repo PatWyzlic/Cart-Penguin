@@ -15,7 +15,10 @@ Uses HTML, CSS, and JavaScript/ JS Canvas
 */
 
 let totalGameBoard = document.querySelector("body");
-totalGameBoard.innerHTML = `<div id="container">
+totalGameBoard.innerHTML = 
+`<header>
+</header>
+<div id="container">
 <aside id="top-one">
     <h2>Penguin Cart</h2>
 </aside>
@@ -26,7 +29,7 @@ totalGameBoard.innerHTML = `<div id="container">
     <h2 id="keyboard-movement">Area</h2>
 </aside>
 <aside id="left-center">
-    <h2>Instructions</h2>
+    <h2 id="instructions">Instructions</h2>
 </aside>
 <main id="game-container">
         <canvas id="game"></canvas>
@@ -44,7 +47,8 @@ totalGameBoard.innerHTML = `<div id="container">
 <aside id="bottom-three">
     <h2 id="play">Play</h2>
 </aside>
-</div>`;
+</div>
+<footer><h4>Inspired by Club Penguin's Cart Surfer</h4></footer>`;
 
 //Initialize game section in html
 let game = document.querySelector("#game");
@@ -83,7 +87,6 @@ window.addEventListener("DOMContentLoaded", function (e) {
   (function () {
     let playButtonSelector = document.querySelector("#play");
     playButtonSelector.addEventListener("click", gameStarts);
-    
     //Select the lose area
     const loseStateSelector = document.querySelector("#lose-state");
     loseStateSelector.addEventListener("click", reload);
@@ -127,7 +130,10 @@ window.addEventListener("DOMContentLoaded", function (e) {
       barrierObj.onload = function () {
         imageHandler(barriers, barrierObj, 400, 100, 31, 32);
       };
-      requestAnimationFrame(gameLoop);
+      if(gameOver === false){
+        requestAnimationFrame(gameLoop);
+      }
+      
       //Game over function
       function gameLost() {
         cancelAnimationFrame(gameLoop);
@@ -201,15 +207,16 @@ window.addEventListener("DOMContentLoaded", function (e) {
       //Holds all obstacles
       function generator() {
         //New number generated for randomizing scene
+        if(gameOver === false){
         let newRandom = Math.floor(Math.random() * 5);
-        let randTime = Math.floor(Math.random() * 1000 + 1000);
+        let randTime = Math.floor(Math.random() * 500 + 800);
         let l = 9;
         //Barrier scene
         if (
           newRandom === 1 &&
           nextScene === true &&
           lastToGo[0] !== "Barrier" &&
-          d > 4
+          d > 4 && gameOver === false
         ) {
           nextScene = false;
           lastToGo.fill("Barrier", 0, 1);
@@ -245,7 +252,7 @@ window.addEventListener("DOMContentLoaded", function (e) {
           newRandom === 2 &&
           nextScene === true &&
           lastToGo[0] !== "Gap" &&
-          d > 4
+          d > 4 && gameOver === false
         ) {
           lastToGo.fill("Gap", 0, 1 && d > 5);
           for (let i = 0; i < 10; i++) {
@@ -284,7 +291,7 @@ window.addEventListener("DOMContentLoaded", function (e) {
           }, randTime);
         }
         //Rails On Screen
-        else if ((nextScene === true && newRandom === 3 && d < 6) || d < 4) {
+        else if ((nextScene === true && newRandom === 3 && d < 6 && gameOver === false) || d < 4) {
           nextScene = false;
           for (let i = 0; i < 10; i++) {
             lastToGo.fill("Rails", 0, 1);
@@ -310,7 +317,6 @@ window.addEventListener("DOMContentLoaded", function (e) {
             }, i * 200);
           }
           setTimeout(() => {
-            scoreNumber++;
             score.textContent = `Score: ${scoreNumber}`;
             nextScene = true;
           }, randTime);
@@ -366,10 +372,12 @@ window.addEventListener("DOMContentLoaded", function (e) {
           }, randTime);
         }
       }
+      }
 
       let h = 0;
       //Keyboard controls
       function keyboardControls(e) {
+        if(gameOver === false){
         switch (e.key) {
           //Allows jump, but cannot float character
           case "w":
@@ -401,6 +409,7 @@ window.addEventListener("DOMContentLoaded", function (e) {
           case "ArrowRight":
             break;
         }
+      }
       }
       //See if key is pressed
       document.addEventListener("keydown", keyboardControls);

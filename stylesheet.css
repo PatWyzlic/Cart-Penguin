@@ -1,11 +1,14 @@
+*{
+    margin: 10px;
+}
 canvas{
-    width: 100%;
-    height: 100%;
+    width: 95%;
+    height: 95%;
     background-color: gray;
 }
 
 body{
-    padding-top: 1em;
+    padding-top: 0em;
     text-align: center;
 }
 

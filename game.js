@@ -15,47 +15,6 @@ Uses HTML, CSS, and JavaScript/ JS Canvas
 */
 
 let totalGameBoard = document.querySelector("body");
-totalGameBoard.innerHTML = 
-`<header>
-</header>
-<div id="container">
-<aside id="top-one">
-    <h2>Penguin Cart</h2>
-</aside>
-<aside id="top-two">
-    <h2></h2>
-</aside>
-<aside id="top-three">
-    <h2 id="keyboard-movement">Area</h2>
-</aside>
-<aside id="left-center">
-    <h2 id="instructions">Instructions</h2>
-</aside>
-<main id="game-container">
-        <canvas id="game"></canvas>
-    <h1></h1>
-</main>
-<aside id="right-center">
-    <h2 id="lose-state"></h2>
-</aside>
-<aside id="bottom-one">
-    <h2 id="score">Score</h2>
-</aside>
-<aside id="bottom-two">
-    <h2></h2>
-</aside>
-<aside id="bottom-three">
-    <h2 id="play">Play</h2>
-</aside>
-</div>
-<footer>
-<iframe src="https://archive.org/embed/club-penguin-music&playlist=1&autoplay=1" width="500" height="300" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
-<h4>Inspired by Club Penguins Cart Surfer</h4>
-<h4>Club Penguin Music provided by archive.org</h4>
-</footer>
-`;
-
-
 //Initialize game section in html
 let game = document.querySelector("#game");
 //Initialize board
@@ -84,6 +43,7 @@ let penguinY = 100;
 //Holds whether game ended or not
 let gameOver = false;
 //Win for escaping the mine
+let winState = false;
 let t = 0;
 //Instructions page
 
@@ -96,10 +56,14 @@ window.addEventListener("DOMContentLoaded", function (e) {
     //Select the lose area
     const loseStateSelector = document.querySelector("#lose-state");
     loseStateSelector.addEventListener("click", reload);
+    game.style.visibility = 'hidden';
     function reload(){
-      $( "#container" ).load(window.location.href + " #container" );
+    //let theReload = document.querySelector('container')
+    location.reload();
+
     }
     function gameStarts() {
+      game.style.visibility = 'visible';
       playButtonSelector.remove();
       function playButton() {
         ctx.clearRect(0, 0, game.width, game.height);
@@ -145,6 +109,7 @@ window.addEventListener("DOMContentLoaded", function (e) {
         cancelAnimationFrame(gameLoop);
         clearInterval(gameLoop.mainInterval);
         loseStateSelector.innerHTML = "TRY AGAIN";
+        game.style.visibility = 'hidden';
         gameOver = true;
         t = 0;
         score.innerHTML = 'Calculating Score';

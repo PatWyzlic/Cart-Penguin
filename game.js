@@ -49,8 +49,10 @@ totalGameBoard.innerHTML =
 </aside>
 </div>
 <footer>
+<iframe src="https://archive.org/embed/club-penguin-music&playlist=1&autoplay=1" width="500" height="300" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
 <h4>Inspired by Club Penguins Cart Surfer</h4>
-<iframe src="https://archive.org/embed/club-penguin-music" width="90%" height="40px" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe></footer>
+<h4>Club Penguin Music provided by archive.org</h4>
+</footer>
 `;
 
 
@@ -95,7 +97,7 @@ window.addEventListener("DOMContentLoaded", function (e) {
     const loseStateSelector = document.querySelector("#lose-state");
     loseStateSelector.addEventListener("click", reload);
     function reload(){
-        location.reload();
+      $( "#container" ).load(window.location.href + " #container" );
     }
     function gameStarts() {
       playButtonSelector.remove();

@@ -58,3 +58,9 @@ body{
 #bottom-three{
     grid-area: bottom-three;
 }
+
+footer{
+    margin-top: 0px;
+    padding: 3px 0px 10px 0px;
+    background: lightblue;
+}

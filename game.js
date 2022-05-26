@@ -48,7 +48,11 @@ totalGameBoard.innerHTML =
     <h2 id="play">Play</h2>
 </aside>
 </div>
-<footer><h4>Inspired by Club Penguin's Cart Surfer</h4></footer>`;
+<footer>
+<h4>Inspired by Club Penguins Cart Surfer</h4>
+<iframe src="https://archive.org/embed/club-penguin-music" width="90%" height="40px" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe></footer>
+`;
+
 
 //Initialize game section in html
 let game = document.querySelector("#game");
@@ -254,7 +258,7 @@ window.addEventListener("DOMContentLoaded", function (e) {
           lastToGo[0] !== "Gap" &&
           d > 4 && gameOver === false
         ) {
-          lastToGo.fill("Gap", 0, 1 && d > 5);
+          lastToGo.fill("Gap", 0, 1);
           for (let i = 0; i < 10; i++) {
             setTimeout(() => {
               if (scenes[i][l] === 2) {

@@ -5,7 +5,7 @@
 <ul>
   <li>You're are a penguin trying to escape a mineshaft before it collapses!</li>
   <li>Watch out there may be some obstacles in the way!</li>
-  <li>The ceiling is collapsing too! Watch out...</li>
+  <li>Some rocks might come off the ceiling too! Watch out...</li>
 </ul>
 <h4>How to play</h4>
 <ul>

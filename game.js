@@ -1,19 +1,13 @@
 /* 
 Penguin in minecart jumping over obstacles in 2d. (Inspired by club penguin cart surfer)
-
-Falling rocks, 
-jumping minecart,
-tricks for extra points, 
-gaps in the tracks,
-barriers to jump over,
-ghost enemy
-
-Background scrolls right to left, auto generated
-tracks at bottom of screen for the minecart
-
-Uses HTML, CSS, and JavaScript/ JS Canvas
+-Falling rocks, 
+-jumping minecart,
+-gaps in the tracks,
+-barriers to jump over,
+-Background scrolls right to left, auto randomized
+-Uses HTML, CSS, and JavaScript/ JS Canvas
+-Playlist of music from Club Penguin using Archive.org
 */
-
 let totalGameBoard = document.querySelector("body");
 //Initialize game section in html
 let game = document.querySelector("#game");
@@ -46,25 +40,29 @@ let gameOver = false;
 let winState = false;
 let t = 0;
 //Instructions page
-
-//10 blocks of 30 on board to get locations
-//Load DOM
+//Load DOM then execute all code
 window.addEventListener("DOMContentLoaded", function (e) {
   (function () {
+    //Creates listener for interaction with play button
     let playButtonSelector = document.querySelector("#play");
     playButtonSelector.addEventListener("click", gameStarts);
-    //Select the lose area
+    //Select the lose area button
     const loseStateSelector = document.querySelector("#lose-state");
     loseStateSelector.addEventListener("click", reload);
+    //Hides the game canvas until player selects play
     game.style.visibility = 'hidden';
+    //Reloads the game.js section whenever player presses try again
     function reload(){
     //let theReload = document.querySelector('container')
     location.reload();
-
     }
+    //Function that runs the game, runs on press of play
     function gameStarts() {
+      //Shows canvas back on screen
       game.style.visibility = 'visible';
+      //Removes play button so player can only press play once
       playButtonSelector.remove();
+      //
       function playButton() {
         ctx.clearRect(0, 0, game.width, game.height);
         gameOver = false;
@@ -103,7 +101,9 @@ window.addEventListener("DOMContentLoaded", function (e) {
       if(gameOver === false){
         requestAnimationFrame(gameLoop);
       }
-      
+      let testArray = [];
+      testArray.push(imageHandler(barriers, barrierObj, 400, 100, 31, 32))
+      console.log(testArray);
       //Game over function
       function gameLost() {
         cancelAnimationFrame(gameLoop);
@@ -370,21 +370,12 @@ window.addEventListener("DOMContentLoaded", function (e) {
               }, 700);
             }
             break;
-          case "s":
-          case "ArrowDown":
-            break;
-          case "a":
-          case "ArrowLeft":
-            break;
-          case "d":
-          case "ArrowRight":
-            break;
         }
       }
       }
       //See if key is pressed
       document.addEventListener("keydown", keyboardControls);
-
+      
       //Detect hit
       function hitLost(objectX, objectY) {
         if (objectX <= 31 && penguinY >= objectY) {

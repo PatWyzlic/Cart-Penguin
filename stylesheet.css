@@ -63,7 +63,14 @@ body{
 }
 
 footer{
+    display: grid;
+    align-items: center;
+    grid-template-columns: .50fr .50fr;
     margin-top: 0px;
     padding: 3px 0px 10px 0px;
     background: lightblue;
+}
+
+#lose-state, #game-win, #play{
+    cursor: pointer;
 }

@@ -54,7 +54,6 @@ window.addEventListener("DOMContentLoaded", function (e) {
     game.style.visibility = 'hidden';
     //Reloads the game.js section whenever player presses try again
     function reload(){
-    //let theReload = document.querySelector('container')
     location.reload();
     }
     //Function that runs the game, runs on press of play
@@ -98,7 +97,7 @@ window.addEventListener("DOMContentLoaded", function (e) {
       function gameLost() {
         cancelAnimationFrame(gameLoop);
         clearInterval(gameLoop.mainInterval);
-        loseStateSelector.innerHTML = "TRY AGAIN";
+        loseStateSelector.innerHTML = `You Lost, Play Again?`;
         game.style.visibility = 'hidden';
         gameOver = true;
         t = 0;
@@ -118,7 +117,10 @@ window.addEventListener("DOMContentLoaded", function (e) {
         //SetInterval to run game loop once a second
         let mainInterval = setInterval(function () {
           generator();
-          if (gameOver === true) {
+          if (scoreNumber > 21) {
+            let gameWin = document.querySelector('#game-win');
+            gameWin.innerHTML = 'YOU WON WHOO!!!'
+          }else if (gameOver === true) {
             gameLost();
           }
         }, 1000);

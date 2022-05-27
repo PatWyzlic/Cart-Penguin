@@ -39,6 +39,7 @@ let gameOver = false;
 //Win for escaping the mine
 let winState = false;
 let t = 0;
+let mainArray = [];
 //Instructions page
 //Load DOM then execute all code
 window.addEventListener("DOMContentLoaded", function (e) {
@@ -82,17 +83,9 @@ window.addEventListener("DOMContentLoaded", function (e) {
       };
       railObj.src = "/Cart-Penguin/Images/rails.png";
       railObj.onload = function () {
-        //Makes game start with rails
-        imageHandler(rails, railObj, 0, 100, 31, 32);
-        imageHandler(rails, railObj, 30, 100, 31, 32);
-        imageHandler(rails, railObj, 60, 100, 31, 32);
-        imageHandler(rails, railObj, 90, 100, 31, 32);
-        imageHandler(rails, railObj, 120, 100, 31, 32);
-        imageHandler(rails, railObj, 150, 100, 31, 32);
-        imageHandler(rails, railObj, 180, 100, 31, 32);
-        imageHandler(rails, railObj, 210, 100, 31, 32);
-        imageHandler(rails, railObj, 240, 100, 31, 32);
-        imageHandler(rails, railObj, 270, 100, 31, 32);
+        for(let i = 0; i < 10; i++){
+          mainArray.push(imageHandler(rails, railObj, 30 * i, 100, 31, 32));
+        }
       };
       barrierObj.src = "/Cart-Penguin/Images/Barrier.png";
       barrierObj.onload = function () {
@@ -101,9 +94,6 @@ window.addEventListener("DOMContentLoaded", function (e) {
       if(gameOver === false){
         requestAnimationFrame(gameLoop);
       }
-      let testArray = [];
-      testArray.push(imageHandler(barriers, barrierObj, 400, 100, 31, 32))
-      console.log(testArray);
       //Game over function
       function gameLost() {
         cancelAnimationFrame(gameLoop);
@@ -189,7 +179,6 @@ window.addEventListener("DOMContentLoaded", function (e) {
         ) {
           nextScene = false;
           lastToGo.fill("Barrier", 0, 1);
-          console.log(lastToGo);
           for (let i = 0; i < 10; i++) {
             imageHandler(rails, railObj, 30, 100, 32, 32);
             hitLost(30 * l, 99);
@@ -231,7 +220,6 @@ window.addEventListener("DOMContentLoaded", function (e) {
                 let back = new GameObject(30 * l, 120, "black", 32, 32);
                 back.render();
                 let backTwo = new GameObject(30 * l, 110, "grey", 32, 20);
-                console.log(penguinX, penguinY);
                 hitLost(30 * l, 99);
                 back.render();
                 backTwo.render();
@@ -310,7 +298,6 @@ window.addEventListener("DOMContentLoaded", function (e) {
                   10
                 );
                 back.render();
-                console.log(penguinX, penguinY);
                 hitLost(30 * l, 99);
                 back.render();
                 ctx.clearRect(30 * l + 30, 0, game.width, 111);

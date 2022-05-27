@@ -1,16 +1,15 @@
 # Cart-Penguin
 
-
 <h3>Story</h3>
 <ul>
   <li>You're are a penguin trying to escape a mineshaft before it collapses!</li>
   <li>Watch out there may be some obstacles in the way!</li>
-  <li>Some rocks might come off the ceiling too! Watch out...</li>
+  <li>Some rocks might come off the ceiling too! Be careful...</li>
 </ul>
 <h4>How to play</h4>
 <ul>
   <li>Jump over obstacles coming your way.</li>
-  <li>You may encounter some scary monsters so far below the ground.</li>
+  <li>Use the up arrow or w to jump.</li>
   <li>Hope you enjoy! 😁</li>
 </ul>
 

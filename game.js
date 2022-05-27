@@ -61,7 +61,7 @@ window.addEventListener("DOMContentLoaded", function (e) {
       //Shows canvas back on screen
       game.style.visibility = 'visible';
       //Removes play button so player can only press play once
-      playButtonSelector.remove();
+      playButtonSelector.innerHTML = '';
       //
       function playButton() {
         ctx.clearRect(0, 0, game.width, game.height);
@@ -119,7 +119,8 @@ window.addEventListener("DOMContentLoaded", function (e) {
           generator();
           if (scoreNumber > 21) {
             let gameWin = document.querySelector('#game-win');
-            gameWin.innerHTML = 'YOU WON WHOO!!!'
+            gameWin.innerHTML = 'YOU WON WHOO!!! Play Again?'
+            gameWin.addEventListener("click", reload);
           }else if (gameOver === true) {
             gameLost();
           }
